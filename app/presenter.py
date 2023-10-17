@@ -72,7 +72,6 @@ class Presenter:
         return list(ALGORITHMS.keys())
 
     def run_algorithm(self) -> None:
-        self.load_data()  # temporary solution: need to add Statefulness to the app
         algorithm = ALGORITHMS[self.view.selected_algorithm]
         self.model.process_data_with_algorithm(algorithm)
         x = [p.x[0] for p in self.model.dominated]
