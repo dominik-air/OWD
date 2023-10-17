@@ -1,9 +1,10 @@
 import numpy as np
-from app.algorithms.ideal_point import ideal_point_method, create_points_from_datapoints
+from app.algorithms.ideal_point import create_points_from_datapoints
+from app.algorithms.filtered import naive_with_filtering
 from app.algorithms.point import Point
 
 
-def test_ideal_point_method():
+def test_naive_with_filtering():
     test_datapoints = [
         (5, 5),
         (3, 6),
@@ -20,7 +21,7 @@ def test_ideal_point_method():
     ]
 
     points = create_points_from_datapoints(test_datapoints)
-    non_dominated_points = ideal_point_method(points)
+    non_dominated_points = naive_with_filtering(points)
     expected_non_dominated_points = [
         Point(np.array([3, 3])),
         Point(np.array([4, 1])),
