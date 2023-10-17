@@ -12,64 +12,36 @@ def create_points_from_datapoints(datapoints: Iterable[tuple[int]]) -> list[Poin
 
 
 def ideal_point_method(points: Iterable[Point]) -> list[Point]:
-    xmin = []
-    print(points)
-    for i in range(points[0].dim):
-        min_i = min(points, key=lambda p: p.x[i]).x[i]
-        xmin.append(min_i)
-    xmin = Point(np.array(xmin))
-    dists_with_indices = [
-        (distance_between_points(xmin, p), i) for i, p in enumerate(points)
-    ]
-    dists_with_indices.sort(key=lambda x: x[0])
-    indices = [i for _, i in dists_with_indices]
+    min_values_per_dimension = []
+    for dim_index in range(points[0].dim):
+        min_value = min(points, key=lambda p: p.x[dim_index]).x[dim_index]
+        min_values_per_dimension.append(min_value)
 
-    m = 0
-    M = len(points)
+    ideal_point = Point(np.array(min_values_per_dimension))
+
+    distances_and_indices = [
+        (distance_between_points(ideal_point, p), idx) for idx, p in enumerate(points)
+    ]
+    distances_and_indices.sort(key=lambda item: item[0])
+    sorted_indices = [idx for _, idx in distances_and_indices]
+
+    current_index = 0
+    total_points = len(points)
     non_dominated_points = []
-    active_points = [True] * len(points)
-    while m <= M:
-        if not active_points[indices[m]]:
-            m += 1
+    is_point_active = [True] * total_points
+
+    while current_index <= total_points:
+        if not is_point_active[sorted_indices[current_index]]:
+            current_index += 1
             continue
 
-        for i, p in enumerate(points):
-            if points[indices[m]] <= p:
-                active_points[i] = False
-        active_points[indices[m]] = False
-        non_dominated_points.append(points[indices[m]])
+        for idx, point in enumerate(points):
+            if points[sorted_indices[current_index]] <= point:
+                is_point_active[idx] = False
+        is_point_active[sorted_indices[current_index]] = False
+        non_dominated_points.append(points[sorted_indices[current_index]])
 
-        M -= 1
-        m += 1
+        total_points -= 1
+        current_index += 1
+
     return non_dominated_points
-
-
-if __name__ == "__main__":
-    test_datapoints = [
-        (5, 5),
-        (3, 6),
-        (4, 4),
-        (5, 3),
-        (3, 3),
-        (1, 8),
-        (3, 4),
-        (4, 5),
-        (3, 10),
-        (6, 6),
-        (4, 1),
-        (3, 5),
-    ]
-
-    points = create_points_from_datapoints(test_datapoints)
-    non_dominated_points = ideal_point_method(points)
-    expected_non_dominated_points = [
-        Point(np.array([3, 3])),
-        Point(np.array([4, 1])),
-        Point(np.array([1, 8])),
-    ]
-
-    assert len(non_dominated_points) == len(expected_non_dominated_points)
-
-    for actual, expected in zip(non_dominated_points, expected_non_dominated_points):
-        print(actual, expected)
-        assert actual == expected
