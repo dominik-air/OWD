@@ -68,9 +68,6 @@ class Presenter:
         self.model.data = points
         self.view.enable_algorithm_selectbox()
 
-    def list_algorithms(self) -> list[str]:
-        return list(ALGORITHMS.keys())
-
     def run_algorithm(self) -> None:
         algorithm = ALGORITHMS[self.view.selected_algorithm]
         self.model.process_data_with_algorithm(algorithm)

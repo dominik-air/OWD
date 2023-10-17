@@ -1,13 +1,11 @@
 from typing import Protocol
 import streamlit as st
 from matplotlib.figure import Figure
+from .algorithms.interface import ALGORITHMS
 
 
 class Presenter(Protocol):
     def load_data(self) -> None:
-        ...
-
-    def list_algorithms(self) -> list[str]:
         ...
 
     def run_algorithm(self) -> None:
@@ -28,7 +26,7 @@ class WebAppView:
         with right:
             self._selected_algorithm = st.selectbox(
                 "OWD algorithm",
-                options=presenter.list_algorithms(),
+                options=list(ALGORITHMS.keys()),
                 on_change=self.enable_run_button,
                 disabled=st.session_state["algorithm_selectbox_disabled"],
             )
