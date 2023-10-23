@@ -4,13 +4,16 @@ from .algorithms.interface import OWDAlgorithm
 
 
 class DataPointModel:
+
+    streamlit_indentifier = "data_model"
+
     def __init__(self) -> None:
         self._data: list[Point] = []
         self._dominated: list[Point] = []
         self._non_dominated: list[Point] = []
 
-        if "data_model" not in st.session_state:
-            st.session_state["data_model"] = self
+        if self.streamlit_indentifier not in st.session_state:
+            st.session_state[self.streamlit_indentifier] = self
 
     @property
     def data(self) -> list[Point]:
@@ -44,4 +47,4 @@ class DataPointModel:
 
     def checkpoint(self) -> None:
         """Save the current state of the data model, since Streamlit is stateless by design."""
-        st.session_state["data_model"] = self
+        st.session_state[self.streamlit_indentifier] = self

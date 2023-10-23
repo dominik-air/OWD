@@ -1,3 +1,4 @@
+from typing import Iterable
 import numpy as np
 
 class Point:
@@ -52,3 +53,7 @@ class Point:
     @classmethod
     def get_global_coordinate_counter(cls) -> int:
         return cls.global_coordinate_counter
+
+
+def create_points_from_datapoints(datapoints: Iterable[tuple[int]]) -> list[Point]:
+    return [Point(np.array(dp)) for dp in datapoints]
