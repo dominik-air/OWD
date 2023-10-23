@@ -11,13 +11,11 @@ def naive_with_filtering(
     active: ndarray = ones(n, dtype=bool)
     non_dominated_results: List[Any] = []
     for i, y in enumerate(data):
-        if not active[i]:
-            continue
+        if not active[i]: continue
         candidate = y
         candidate_index = i
         for j, x in enumerate(data[i + 1 :], i + 1):
-            if not active[j]:
-                continue
+            if not active[j]: continue
             if candidate <= x:
                 active[j] = False
             elif x <= candidate:
