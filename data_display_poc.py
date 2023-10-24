@@ -8,9 +8,9 @@ class Model:
     def __init__(self) -> None:
         self._data = pd.DataFrame(
             {
-                "Kryterium 1": [1, 1, 1, 1, 1],
-                "Kryterium 2": [2, 2, 2, 2, 2],
-                "Kryterium 3": [3, 3, 3, 3, 3],
+                "Kryterium 1": [1, 1, 1, 1, 1]*5,
+                "Kryterium 2": [2, 2, 2, 2, 2]*5,
+                "Kryterium 3": [3, 3, 3, 3, 3]*5,
             }
         )
         if self.streamlit_indentifier not in st.session_state:
@@ -47,9 +47,10 @@ class DataTableView:
     streamlit_indentifier = "data_table_view"
 
     def init_ui(self, presenter) -> None:
+        st.subheader("Podgląd zbioru danych", divider=True)
         uploaded_file = st.file_uploader("Dodaj z csv")
         if uploaded_file is not None:
-            dataframe = pd.read_csv(uploaded_file, index_col=0)
+            dataframe = pd.read_csv(uploaded_file, encoding='ISO-8859-1')
             presenter.save_data_to_model(dataframe)
             self.clear_display()
         st.data_editor(
@@ -59,11 +60,3 @@ class DataTableView:
     def clear_display(self):
         if self.streamlit_indentifier in st.session_state:
             del st.session_state[self.streamlit_indentifier]
-
-
-view = DataTableView()
-if Model.streamlit_indentifier not in st.session_state:
-    model = Model()
-else:
-    model = st.session_state[Model.streamlit_indentifier]
-presenter = Presenter(model=model, view=view)

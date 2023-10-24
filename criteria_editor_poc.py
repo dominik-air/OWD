@@ -58,6 +58,7 @@ class CriteriaEditorView:
         self.clear_editor()
 
     def init_ui(self, presenter) -> None:
+        st.subheader("Edytor kryteriów", divider=True)
         edited_df = st.data_editor(
             presenter.get_model(),
             key=self.streamlit_indentifier,
@@ -80,11 +81,3 @@ class CriteriaEditorView:
     def clear_editor(self) -> None:
         if self.streamlit_indentifier in st.session_state:
             del st.session_state[self.streamlit_indentifier]
-
-
-if CriteriaModel.streamlit_indentifier in st.session_state:
-    model = st.session_state[CriteriaModel.streamlit_indentifier]
-else:
-    model = CriteriaModel()
-view = CriteriaEditorView()
-presenter = CriteriaPresenter(model=model, view=view)

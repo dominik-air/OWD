@@ -11,8 +11,9 @@ class DatasetGeneratorView:
         }
 
     def init_ui(self) -> None:
+        st.subheader("Generator zbioru danych", divider=True)
         dist = st.selectbox(
-            "Rozkład", options=list(self.distribution_to_parameters.keys())
+            "Rozkład", key='distribution_selector', options=list(self.distribution_to_parameters.keys())
         )
 
         self.distribution_to_parameters[dist]()
@@ -64,6 +65,3 @@ class DatasetGeneratorView:
             st.number_input(
                 "Liczba obiektów", value=20, min_value=10, max_value=100, step=10
             )
-
-
-DatasetGeneratorView().init_ui()

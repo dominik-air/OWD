@@ -1,7 +1,7 @@
 import streamlit as st
-from app.model import DataPointModel
-from app.view import WebAppView
-from app.presenter import Presenter
+from app.models import DataPointModel
+from app.views import WebAppView
+from app.presenters import Presenter
 
 if __name__ == "__main__":
     view = WebAppView()
