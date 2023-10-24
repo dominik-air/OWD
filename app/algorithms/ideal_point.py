@@ -7,10 +7,6 @@ def distance_between_points(p1: Point, p2: Point):
     return np.sum(np.square(p1.x - p2.x))
 
 
-def create_points_from_datapoints(datapoints: Iterable[tuple[int]]) -> list[Point]:
-    return [Point(np.array(dp)) for dp in datapoints]
-
-
 def ideal_point_method(points: Iterable[Point]) -> list[Point]:
     min_values_per_dimension = []
     for dim_index in range(points[0].dim):
