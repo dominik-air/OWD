@@ -55,5 +55,5 @@ class Point:
         return cls.global_coordinate_counter
 
 
-def create_points_from_datapoints(datapoints: Iterable[tuple[int]]) -> list[Point]:
+def create_points_from_datapoints(datapoints: Iterable[tuple[int | float]]) -> list[Point]:
     return [Point(np.array(dp)) for dp in datapoints]

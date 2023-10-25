@@ -1,53 +1,39 @@
+from typing import Protocol
 import streamlit as st
 import pandas as pd
 
 
-class CriteriaModel:
-    streamlit_indentifier = "criteria_model"
-
-    def __init__(self):
-        self._names: list[str] = ["Kryterium 1", "Kryterium 2"]
-        self._directions: list[str] = ["Min", "Min"]
-        if self.streamlit_indentifier not in st.session_state:
-            st.session_state[self.streamlit_indentifier] = self
-
+class Model(Protocol):
     @property
-    def names(self) -> list[str]:
-        return self._names.copy()
+    def labels(self) -> list[str]:
+        ...
+
+    @labels.setter
+    def labels(self, labels: list[str]) -> None:
+        ...
 
     @property
     def directions(self) -> list[str]:
-        return self._directions.copy()
-
-    @names.setter
-    def names(self, updated: list[str]) -> None:
-        self._names = updated
-        self.checkpoint()
+        ...
 
     @directions.setter
-    def directions(self, updated: list[str]) -> None:
-        self._directions = updated
-        self.checkpoint()
-
-    def to_dataframe(self) -> pd.DataFrame:
-        return pd.DataFrame({"Nazwa": self.names, "Kierunek": self.directions})
-
-    def checkpoint(self) -> None:
-        """Save the current state of the criteria model, since Streamlit is stateless by design."""
-        st.session_state[self.streamlit_indentifier] = self
+    def directions(self, directions: list[str]) -> None:
+        ...
 
 
 class CriteriaPresenter:
-    def __init__(self, model, view) -> None:
+    def __init__(self, model: Model, view: "CriteriaEditorView") -> None:
         self.model = model
         self.view = view
         view.init_ui(self)
 
     def get_model(self) -> pd.DataFrame:
-        return self.model.to_dataframe()
+        return pd.DataFrame(
+            {"Nazwa": self.model.labels, "Kierunek": self.model.directions}
+        )
 
     def update_criteria_model(self, updated: pd.DataFrame) -> None:
-        self.model.names = updated["Nazwa"].tolist()
+        self.model.labels = updated["Nazwa"].tolist()
         self.model.directions = updated["Kierunek"].tolist()
 
 
@@ -57,7 +43,7 @@ class CriteriaEditorView:
     def __init__(self) -> None:
         self.clear_editor()
 
-    def init_ui(self, presenter) -> None:
+    def init_ui(self, presenter: CriteriaPresenter) -> None:
         st.subheader("Edytor kryteriów", divider=True)
         edited_df = st.data_editor(
             presenter.get_model(),
