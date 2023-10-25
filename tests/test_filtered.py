@@ -1,7 +1,6 @@
 import numpy as np
-from app.algorithms.ideal_point import create_points_from_datapoints
 from app.algorithms.filtered import naive_with_filtering
-from app.algorithms.point import Point
+from app.algorithms.point import Point, create_points_from_datapoints
 
 
 def test_naive_with_filtering():

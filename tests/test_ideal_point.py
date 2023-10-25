@@ -1,6 +1,6 @@
 import numpy as np
-from app.algorithms.ideal_point import ideal_point_method, create_points_from_datapoints
-from app.algorithms.point import Point
+from app.algorithms.ideal_point import ideal_point_method
+from app.algorithms.point import Point, create_points_from_datapoints
 
 
 def test_ideal_point_method():

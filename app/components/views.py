@@ -1,7 +1,7 @@
 from typing import Protocol
 import streamlit as st
 from matplotlib.figure import Figure
-from .algorithms.interface import ALGORITHMS
+from ..algorithms.interface import ALGORITHMS
 
 
 class Presenter(Protocol):

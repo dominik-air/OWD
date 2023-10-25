@@ -1,9 +1,9 @@
 from typing import Protocol
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from .algorithms.point import Point
-from .algorithms.interface import OWDAlgorithm, ALGORITHMS
-from .algorithms.ideal_point import create_points_from_datapoints
+from ..algorithms.point import Point
+from ..algorithms.interface import OWDAlgorithm, ALGORITHMS
+from ..algorithms.point import create_points_from_datapoints
 
 
 class Model(Protocol):
