@@ -1,7 +1,7 @@
 from typing import Protocol
 import streamlit as st
 import pandas as pd
-
+from .events import subscribe, EventType
 
 class Model(Protocol):
     @property

@@ -16,14 +16,15 @@ else:
 
 left, right = st.columns(2)
 with left:
+    dataset_loader_view = DatasetLoaderView()
+    dataset_loader_presenter = DataserLoaderPresenter(model=model, view=dataset_loader_view)
+    
     criteria_view = CriteriaEditorView()
     criteria_presenter = CriteriaPresenter(model=model, view=criteria_view)
 
     dataset_generator_view = DatasetGeneratorView()
     dataset_generator_presenter = DatasetGeneratorPresenter(model=model, view=dataset_generator_view)
 
-    dataset_loader_view = DatasetLoaderView()
-    dataset_loader_presenter = DataserLoaderPresenter(model=model, view=dataset_loader_view)
 with right:
     datatable_view = DataTableView()
     datatable_presenter = DataTablePresenter(model=model, view=datatable_view)

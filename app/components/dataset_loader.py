@@ -19,6 +19,14 @@ class Model(Protocol):
     @labels.setter
     def labels(self, labels: list[str]) -> None:
         ...
+    
+    @property
+    def directions(self) -> list[str]:
+        ...
+
+    @directions.setter
+    def directions(self, directions: list[str]) -> None:
+        ...
 
 
 class DataserLoaderPresenter:
@@ -29,6 +37,7 @@ class DataserLoaderPresenter:
 
     def save_data_to_model(self, dataframe: pd.DataFrame) -> None:
         self.model.data = dataframe.values.tolist()
+        self.model.directions = ["Min"] * len(dataframe.columns.tolist())
         self.model.labels = dataframe.columns.tolist()
 
 
