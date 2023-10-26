@@ -28,8 +28,8 @@ class DataserLoaderPresenter:
         self.view.init_ui(self)
 
     def save_data_to_model(self, dataframe: pd.DataFrame) -> None:
-        self.model.data = dataframe.tolist()
-        self.model.labels = dataframe.columns()
+        self.model.data = dataframe.values.tolist()
+        self.model.labels = dataframe.columns.tolist()
 
 
 class DatasetLoaderView:
