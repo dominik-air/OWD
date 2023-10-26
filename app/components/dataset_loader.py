@@ -46,5 +46,5 @@ class DatasetLoaderView:
         st.subheader("Moduł ładujący zbiór danych", divider=True)
         uploaded_file = st.file_uploader("Dodaj plik z danymi")
         if uploaded_file is not None:
-            dataframe = pd.read_csv(uploaded_file, encoding="ISO-8859-1")
+            dataframe = pd.read_csv(uploaded_file)
             presenter.save_data_to_model(dataframe)
