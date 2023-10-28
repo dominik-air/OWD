@@ -1,14 +1,15 @@
 import streamlit as st
+import numpy as np
 from numpy.random import exponential, normal, poisson, uniform
 
 
 class Model:
     @property
-    def data(self) -> list[tuple[int | float]]:
+    def data(self) -> np.ndarray:
         ...
 
     @data.setter
-    def data(self, data: list[tuple[int | float]]) -> None:
+    def data(self, data: np.ndarray) -> None:
         ...
 
     @property
@@ -30,12 +31,12 @@ class DatasetGeneratorPresenter:
         elif params["dist"] == "Poissona":
             data = poisson(lam=params["lambda"], size=data_shape)
         elif params["dist"] == "Wykładniczy":
-            data = exponential(lam=params["lambda"], size=data_shape)
+            data = exponential(scale=params["lambda"], size=data_shape)
         elif params["dist"] == "Jednostajny":
             data = uniform(low=params["a"], high=params["b"], size=data_shape)
         else:
             raise ValueError
-        self.model.data = data.tolist()
+        self.model.data = data
 
 
 class DatasetGeneratorView:

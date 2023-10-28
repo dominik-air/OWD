@@ -1,9 +1,18 @@
 from typing import Protocol
 import streamlit as st
+import numpy as np
 import pandas as pd
 
 
 class Model(Protocol):
+    @property
+    def data(self) -> np.ndarray:
+        ...
+
+    @data.setter
+    def data(self, data: np.ndarray) -> None:
+        ...
+
     @property
     def labels(self) -> list[str]:
         ...
@@ -32,16 +41,34 @@ class CriteriaPresenter:
             {"Nazwa": self.model.labels, "Kierunek": self.model.directions}
         )
 
-    def update_criteria_model(self, updated: pd.DataFrame) -> None:
-        self.model.labels = updated["Nazwa"].tolist()
-        self.model.directions = updated["Kierunek"].tolist()
+    def get_default_new_criteria_name(self) -> str:
+        return f"Nowe Kryterium #{len(self.model.labels) + 1}"
+
+    def update_model(self, updated: pd.DataFrame) -> None:
+        new_labels = updated["Nazwa"].tolist()
+        new_directions = updated["Kierunek"].tolist()
+
+        label_to_index = {label: idx for idx, label in enumerate(self.model.labels)}
+        default_value = 0
+
+        new_data_columns = []
+
+        for label in new_labels:
+            if label in label_to_index:
+                new_data_columns.append(self.model.data[:, label_to_index[label]])
+            else:
+                new_data_columns.append(
+                    np.full(self.model.data.shape[0], default_value)
+                )
+        new_data = np.column_stack(new_data_columns)
+
+        self.model.data = new_data
+        self.model.labels = new_labels
+        self.model.directions = new_directions
 
 
 class CriteriaEditorView:
     streamlit_indentifier = "criteria_editor"
-
-    def __init__(self) -> None:
-        self.clear_editor()
 
     def init_ui(self, presenter: CriteriaPresenter) -> None:
         st.subheader("Edytor kryteriów", divider=True)
@@ -49,9 +76,13 @@ class CriteriaEditorView:
             presenter.get_model(),
             key=self.streamlit_indentifier,
             num_rows="dynamic",
+            hide_index=True,
             column_config={
                 "Nazwa": st.column_config.TextColumn(
-                    "Nazwa", width="large", default="Nowe Kryterium", required=True
+                    "Nazwa",
+                    width="large",
+                    default=presenter.get_default_new_criteria_name(),
+                    required=True,
                 ),
                 "Kierunek": st.column_config.SelectboxColumn(
                     "Kierunek",
@@ -62,8 +93,4 @@ class CriteriaEditorView:
                 ),
             },
         )
-        presenter.update_criteria_model(edited_df)
-
-    def clear_editor(self) -> None:
-        if self.streamlit_indentifier in st.session_state:
-            del st.session_state[self.streamlit_indentifier]
+        presenter.update_model(edited_df)
