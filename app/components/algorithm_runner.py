@@ -2,6 +2,7 @@ from typing import Any
 import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+import matplotlib.cm as cm
 from ..algorithms.interface import ALGORITHMS, Point, OWDAlgorithm
 
 
@@ -42,12 +43,18 @@ class AlgorithmRunnerPresenter:
         json = self.prepare_results_json()
         st.session_state[self.cached_json] = json
 
-        # TODO: extend for 3D and 4D problems
-        if len(self.model.labels) == 2:
-            figure = self.plot_figure()
-            st.session_state[self.cached_figure] = figure
-        else:
-            del st.session_state[self.cached_figure]
+        match len(self.model.labels):
+            case 2:
+                figure = self.plot_2Dfigure()
+                st.session_state[self.cached_figure] = figure
+            case 3:
+                figure = self.plot_3Dfigure()
+                st.session_state[self.cached_figure] = figure
+            case 4:
+                figure = self.plot_4Dfigure()
+                st.session_state[self.cached_figure] = figure
+            case _:
+                del st.session_state[self.cached_figure]
 
     def run_benchmark(self) -> None:
         raise NotImplementedError
@@ -63,20 +70,76 @@ class AlgorithmRunnerPresenter:
             ],
         }
 
-    def plot_figure(self) -> Figure:
+    def plot_2Dfigure(self) -> Figure:
+        fig, ax = plt.subplots()
+
         x = [p.x[0] for p in self.model.dominated_points]
         y = [p.x[1] for p in self.model.dominated_points]
-        fig, ax = plt.subplots()
-        plt.grid()
-        ax.scatter(x, y, c="r", label="dominated", zorder=3)
-        plt.xlabel("x")
-        plt.ylabel("y")
-        plt.title("Data points")
+        ax.scatter(x, y, marker="o", label="dominated", zorder=3)
 
         x = [p.x[0] for p in self.model.non_dominated_points]
         y = [p.x[1] for p in self.model.non_dominated_points]
-        ax.scatter(x, y, c="g", label="not dominated", zorder=3)
-        plt.legend()
+        ax.scatter(x, y, marker="^", label="not dominated", zorder=3)
+
+        plt.xlabel("Kryterium 1")
+        plt.ylabel("Kryterium 2")
+        plt.title("Wyniki działania algorytmu dla podanego zbioru")
+        plt.legend(loc='center left', bbox_to_anchor=(1, 0.55))
+        plt.grid()
+        return fig
+
+    def plot_3Dfigure(self) -> Figure:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+
+        x = [p.x[0] for p in self.model.dominated_points]
+        y = [p.x[1] for p in self.model.dominated_points]
+        z = [p.x[2] for p in self.model.dominated_points]
+        ax.scatter(x, y, z, marker="o", label="dominated", s=50, alpha=0.6)
+
+        x = [p.x[0] for p in self.model.non_dominated_points]
+        y = [p.x[1] for p in self.model.non_dominated_points]
+        z = [p.x[2] for p in self.model.non_dominated_points]
+        ax.scatter(x, y, z, marker="^", label="not dominated", s=50, alpha=0.6)
+
+        ax.set_xlabel('Kryterium 1')
+        ax.set_ylabel('Kryterium 2')
+        ax.set_zlabel('Kryterium 3')
+        ax.set_title("Wyniki działania algorytmu dla podanego zbioru")
+        ax.legend(loc='center left', bbox_to_anchor=(1, 0.85))
+        plt.grid()
+        return fig
+
+    def plot_4Dfigure(self) -> Figure:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+
+        x_dominated = [p.x[0] for p in self.model.dominated_points]
+        y_dominated = [p.x[1] for p in self.model.dominated_points]
+        z_dominated = [p.x[2] for p in self.model.dominated_points]
+        c_dominated = [p.x[3] for p in self.model.dominated_points]
+        ax.scatter(x_dominated, y_dominated, z_dominated, c=c_dominated, cmap='rainbow',
+                   marker="o", label="dominated", s=50, alpha=0.6)
+
+        x_non_dominated = [p.x[0] for p in self.model.non_dominated_points]
+        y_non_dominated = [p.x[1] for p in self.model.non_dominated_points]
+        z_non_dominated = [p.x[2] for p in self.model.non_dominated_points]
+        c_non_dominated = [p.x[3] for p in self.model.non_dominated_points]
+        ax.scatter(x_non_dominated, y_non_dominated, z_non_dominated, c=c_non_dominated,
+                   cmap='rainbow', marker="^", label="not dominated", s=50, alpha=0.6)
+
+        ax.set_xlabel('Kryterium 1')
+        ax.set_ylabel('Kryterium 2')
+        ax.set_zlabel('Kryterium 3')
+        ax.set_title("Wyniki działania algorytmu dla podanego zbioru")
+
+        sm = cm.ScalarMappable(cmap='rainbow')
+        sm.set_array(c_non_dominated)
+        cbar = plt.colorbar(sm, ax=ax, pad=0.15)
+        cbar.set_label('Kryterium 4', rotation=90, labelpad=15)
+
+        ax.legend(loc='center right', bbox_to_anchor=(1, 0.9))
+        ax.grid(True)
         return fig
 
 
@@ -105,8 +168,13 @@ class AlgorithmRunnerView:
 
     def display_json(self, json: dict[str, Any]) -> None:
         """For benchmark results and 5+ dimensional problems (can't plot that)."""
-        st.subheader("Rozwiązanie", divider=True)
-        st.json(json)
+        right, left = st.columns([1, 1])
+        with right:
+            st.subheader("Wizualizacja", divider=True)
+            st.info("Wizualizacja jest możliwa jedynie dla problemów 2/3/4 wymiarowych.")
+        with left:
+            st.subheader("Rozwiązanie", divider=True)
+            st.json(json)
 
     def display_figure_with_json(self, figure: Figure, json: dict[str, Any]) -> None:
         """For results of algorithms run on 2/3/4 dimensional problems."""

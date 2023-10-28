@@ -24,19 +24,22 @@ class DatasetGeneratorPresenter:
         self.view.init_ui(self)
 
     def generate_dataset(self, params) -> None:
-        # TODO: needs a refactor, there is a better way of doing this
         data_shape = (params["obj_count"], len(self.model.labels))
-        if params["dist"] == "Gaussa":
-            data = normal(loc=params["mean"], scale=params["std"], size=data_shape)
-        elif params["dist"] == "Poissona":
-            data = poisson(lam=params["lambda"], size=data_shape)
-        elif params["dist"] == "Wykładniczy":
-            data = exponential(scale=params["lambda"], size=data_shape)
-        elif params["dist"] == "Jednostajny":
-            data = uniform(low=params["a"], high=params["b"], size=data_shape)
-        else:
+        distribution_functions = {
+            "Gaussa": lambda: normal(loc=params["mean"],
+                                     scale=params["std"],
+                                     size=data_shape),
+            "Poissona": lambda: poisson(lam=params["lambda"],
+                                        size=data_shape),
+            "Wykładniczy": lambda: exponential(scale=params["lambda"],
+                                               size=data_shape),
+            "Jednostajny": lambda: uniform(low=params["a"],
+                                           high=params["b"],
+                                           size=data_shape)
+        }
+        if params["dist"] not in distribution_functions:
             raise ValueError
-        self.model.data = data
+        self.model.data = distribution_functions[params["dist"]]()
 
 
 class DatasetGeneratorView:
