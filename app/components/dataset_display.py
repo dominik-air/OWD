@@ -1,15 +1,16 @@
 from typing import Protocol
+import numpy as np
 import streamlit as st
 import pandas as pd
 
 
 class Model(Protocol):
     @property
-    def data(self) -> list[tuple[int | float]]:
+    def data(self) -> np.ndarray:
         ...
 
     @data.setter
-    def data(self, data: list[tuple[int | float]]) -> None:
+    def data(self, data: np.ndarray) -> None:
         ...
 
     @property
@@ -31,10 +32,6 @@ class DataTablePresenter:
         df = pd.DataFrame(self.model.data)
         df.columns = self.model.labels
         return df
-
-    def save_data_to_model(self, dataframe: pd.DataFrame) -> None:
-        self.model.data = dataframe.values.tolist()
-        self.model.labels = dataframe.columns.tolist()
 
 
 class DataTableView:

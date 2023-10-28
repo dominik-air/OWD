@@ -1,15 +1,16 @@
 from typing import Protocol
 import streamlit as st
+import numpy as np
 import pandas as pd
 
 
 class Model(Protocol):
     @property
-    def data(self) -> list[tuple[int | float]]:
+    def data(self) -> np.ndarray:
         ...
 
     @data.setter
-    def data(self, data: list[tuple[int | float]]) -> None:
+    def data(self, data: np.ndarray) -> None:
         ...
 
     @property
@@ -36,7 +37,7 @@ class DataserLoaderPresenter:
         self.view.init_ui(self)
 
     def save_data_to_model(self, dataframe: pd.DataFrame) -> None:
-        self.model.data = dataframe.values.tolist()
+        self.model.data = dataframe.values
         self.model.directions = ["Min"] * len(dataframe.columns.tolist())
         self.model.labels = dataframe.columns.tolist()
 

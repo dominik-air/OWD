@@ -1,5 +1,5 @@
+import numpy as np
 import streamlit as st
-from .events import EventType, post_event
 from ..algorithms.point import Point, create_points_from_datapoints
 from ..algorithms.interface import OWDAlgorithm
 
@@ -8,7 +8,7 @@ class Model:
     streamlit_indentifier = "data_model"
 
     def __init__(self) -> None:
-        self._data: list[tuple[int | float]] = [[1, 1], [2, 2], [3, 3]] * 10
+        self._data: np.ndarray = np.array([[1, 1], [2, 2], [3, 3]] * 10)
         self._labels: list[str] = ["x", "y"]
         self._directions: list[str] = ["Min", "Max"]
         self._dominated_points: list[Point] = []
@@ -22,14 +22,13 @@ class Model:
         return create_points_from_datapoints(self._data)
 
     @property
-    def data(self) -> list[tuple[int | float]]:
+    def data(self) -> np.ndarray:
         return self._data
 
     @data.setter
-    def data(self, data: list[tuple[int | float]]) -> None:
+    def data(self, data: np.ndarray) -> None:
         self._data = data
         self.checkpoint()
-        post_event(EventType.DataPointsUpdated, data=self._data)
 
     @property
     def labels(self) -> list[str]:
@@ -39,7 +38,6 @@ class Model:
     def labels(self, labels: list[str]) -> None:
         self._labels = labels
         self.checkpoint()
-        post_event(EventType.LabelsUpdated, data=self._labels)
 
     @property
     def directions(self) -> list[str]:
