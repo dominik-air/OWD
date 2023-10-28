@@ -20,7 +20,7 @@ class Model(Protocol):
     @labels.setter
     def labels(self, labels: list[str]) -> None:
         ...
-    
+
     @property
     def directions(self) -> list[str]:
         ...
@@ -46,15 +46,18 @@ class DatasetLoaderView:
     def init_ui(self, presenter: DataserLoaderPresenter) -> None:
         st.subheader("Moduł ładujący zbiór danych", divider=True)
         uploaded_file = st.file_uploader("Dodaj plik z danymi")
-        if uploaded_file is not None and self.get_current_uploaded_file() != uploaded_file.name:
+        if (
+            uploaded_file is not None
+            and self.get_current_uploaded_file() != uploaded_file.name
+        ):
             self.save_current_uploaded_file(uploaded_file.name)
             dataframe = pd.read_csv(uploaded_file)
             presenter.save_data_to_model(dataframe)
         if uploaded_file is None:
             self.save_current_uploaded_file("")
-        
+
     def save_current_uploaded_file(self, filename: str) -> None:
-        st.session_state['current_uploaded_file'] = filename
-    
+        st.session_state["current_uploaded_file"] = filename
+
     def get_current_uploaded_file(self) -> str:
-        return st.session_state.get('current_uploaded_file', '')
+        return st.session_state.get("current_uploaded_file", "")

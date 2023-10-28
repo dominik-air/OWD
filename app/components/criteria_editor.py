@@ -3,6 +3,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
+
 class Model(Protocol):
     @property
     def data(self) -> np.ndarray:
@@ -11,7 +12,7 @@ class Model(Protocol):
     @data.setter
     def data(self, data: np.ndarray) -> None:
         ...
-    
+
     @property
     def labels(self) -> list[str]:
         ...
@@ -51,17 +52,20 @@ class CriteriaPresenter:
         default_value = 0
 
         new_data_columns = []
-        
+
         for label in new_labels:
             if label in label_to_index:
                 new_data_columns.append(self.model.data[:, label_to_index[label]])
             else:
-                new_data_columns.append(np.full(self.model.data.shape[0], default_value))
+                new_data_columns.append(
+                    np.full(self.model.data.shape[0], default_value)
+                )
         new_data = np.column_stack(new_data_columns)
 
         self.model.data = new_data
         self.model.labels = new_labels
         self.model.directions = new_directions
+
 
 class CriteriaEditorView:
     streamlit_indentifier = "criteria_editor"
@@ -75,7 +79,10 @@ class CriteriaEditorView:
             hide_index=True,
             column_config={
                 "Nazwa": st.column_config.TextColumn(
-                    "Nazwa", width="large", default=presenter.get_default_new_criteria_name(), required=True
+                    "Nazwa",
+                    width="large",
+                    default=presenter.get_default_new_criteria_name(),
+                    required=True,
                 ),
                 "Kierunek": st.column_config.SelectboxColumn(
                     "Kierunek",
