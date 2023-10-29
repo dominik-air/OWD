@@ -71,6 +71,8 @@ class AlgorithmRunnerPresenter:
     def execute_the_algorithm(self, algorithm: str) -> None:
         chosen_algorithm = ALGORITHMS[algorithm]
         self.model.process_points_with_algorithm(chosen_algorithm)
+        if self.cached_table in st.session_state:
+            del st.session_state[self.cached_table]
 
     def prepare_proper_figure(self) -> None:
         match len(self.model.labels):
