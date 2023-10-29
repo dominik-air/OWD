@@ -45,13 +45,11 @@ class AlgorithmRunnerPresenter:
         self.view.init_ui(self)
 
     def run_algorithm(self) -> None:
-        self.reset_chached_objects()
         self.execute_the_algorithm(self.view.selected_algorithm)
         self.prepare_results_json()
         self.prepare_proper_figure()
 
     def run_benchmark(self) -> None:
-        self.reset_chached_objects()
         self.execute_the_algorithm(self.view.algorithm_for_benchmark1)
         self.prepare_proper_figure()
 
