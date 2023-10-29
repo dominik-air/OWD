@@ -81,8 +81,8 @@ class AlgorithmRunnerPresenter:
         y = [p.x[1] for p in self.model.non_dominated_points]
         ax.scatter(x, y, marker="^", label="not dominated", zorder=3)
 
-        plt.xlabel("Kryterium 1")
-        plt.ylabel("Kryterium 2")
+        plt.xlabel(self.model.labels[0])
+        plt.ylabel(self.model.labels[1])
         plt.title("Wyniki działania algorytmu dla podanego zbioru")
         plt.legend(loc='center left', bbox_to_anchor=(1, 0.55))
         plt.grid()
@@ -102,9 +102,9 @@ class AlgorithmRunnerPresenter:
         z = [p.x[2] for p in self.model.non_dominated_points]
         ax.scatter(x, y, z, marker="^", label="not dominated", s=50, alpha=0.6)
 
-        ax.set_xlabel('Kryterium 1')
-        ax.set_ylabel('Kryterium 2')
-        ax.set_zlabel('Kryterium 3')
+        ax.set_xlabel(self.model.labels[0])
+        ax.set_ylabel(self.model.labels[1])
+        ax.set_zlabel(self.model.labels[2])
         ax.set_title("Wyniki działania algorytmu dla podanego zbioru")
         ax.legend(loc='center left', bbox_to_anchor=(1, 0.85))
         plt.grid()
@@ -128,15 +128,15 @@ class AlgorithmRunnerPresenter:
         ax.scatter(x_non_dominated, y_non_dominated, z_non_dominated, c=c_non_dominated,
                    cmap='rainbow', marker="^", label="not dominated", s=50, alpha=0.6)
 
-        ax.set_xlabel('Kryterium 1')
-        ax.set_ylabel('Kryterium 2')
-        ax.set_zlabel('Kryterium 3')
+        ax.set_xlabel(self.model.labels[0])
+        ax.set_ylabel(self.model.labels[1])
+        ax.set_zlabel(self.model.labels[2])
         ax.set_title("Wyniki działania algorytmu dla podanego zbioru")
 
         sm = cm.ScalarMappable(cmap='rainbow')
         sm.set_array(c_non_dominated)
         cbar = plt.colorbar(sm, ax=ax, pad=0.15)
-        cbar.set_label('Kryterium 4', rotation=90, labelpad=15)
+        cbar.set_label(self.model.labels[3], rotation=90, labelpad=15)
 
         ax.legend(loc='center right', bbox_to_anchor=(1, 0.9))
         ax.grid(True)
