@@ -1,10 +1,12 @@
 from typing import Any
+import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.colors import Normalize
+from numpy import mean
 import matplotlib.cm as cm
-from ..algorithms.interface import ALGORITHMS, Point, OWDAlgorithm
+from ..algorithms.interface import ALGORITHMS, Point, OWDAlgorithm, BenchmarkAnalyzer
 
 
 class Model:
@@ -20,6 +22,10 @@ class Model:
     def non_dominated_points(self) -> list[Point]:
         ...
 
+    @property
+    def points(self) -> list[Point]:
+        ...
+
     def process_points_with_algorithm(self, algorithm: OWDAlgorithm) -> None:
         ...
 
@@ -31,6 +37,7 @@ class AlgorithmRunnerPresenter:
 
     cached_figure = "cached_figure"
     cached_json = "cached_json"
+    cached_table = "cached_table"
 
     def __init__(self, model: Model, view: "AlgorithmRunnerView") -> None:
         self.model = model
@@ -38,12 +45,39 @@ class AlgorithmRunnerPresenter:
         self.view.init_ui(self)
 
     def run_algorithm(self) -> None:
-        algorithm = ALGORITHMS[self.view.selected_algorithm]
-        self.model.process_points_with_algorithm(algorithm)
+        self.reset_chached_objects()
+        self.execute_the_algorithm(self.view.selected_algorithm)
+        self.prepare_results_json()
+        self.prepare_proper_figure()
 
-        json = self.prepare_results_json()
+    def run_benchmark(self) -> None:
+        self.reset_chached_objects()
+        self.execute_the_algorithm(self.view.algorithm_for_benchmark1)
+        self.prepare_proper_figure()
+
+        self.prepare_benchmark_table(self.view.algorithm_for_benchmark1,
+                                     self.view.algorithm_for_benchmark2,
+                                     len(self.model.labels),
+                                     self.model.points,
+                                     self.view.repeats_for_benchmark)
+
+    def prepare_results_json(self) -> None:
+        labels = self.model.labels
+        json = {
+            "nondominated": [
+                point_to_json(p, labels) for p in self.model.non_dominated_points
+            ],
+            "dominated": [
+                point_to_json(p, labels) for p in self.model.dominated_points
+            ],
+        }
         st.session_state[self.cached_json] = json
 
+    def execute_the_algorithm(self, algorithm: str) -> None:
+        chosen_algorithm = ALGORITHMS[algorithm]
+        self.model.process_points_with_algorithm(chosen_algorithm)
+
+    def prepare_proper_figure(self) -> None:
         match len(self.model.labels):
             case 2:
                 figure = self.plot_2Dfigure()
@@ -57,19 +91,31 @@ class AlgorithmRunnerPresenter:
             case _:
                 del st.session_state[self.cached_figure]
 
-    def run_benchmark(self) -> None:
-        raise NotImplementedError
+    def prepare_benchmark_table(self,
+                                algorithm1: str,
+                                algorithm2: str,
+                                dimensionality: int,
+                                dataset: list[Point],
+                                repeats: int) -> None:
+        benchmark1 = BenchmarkAnalyzer(algorithm1, dimensionality, dataset)
+        benchmark2 = BenchmarkAnalyzer(algorithm2, dimensionality, dataset)
 
-    def prepare_results_json(self) -> dict[str, Any]:
-        labels = self.model.labels
-        return {
-            "nondominated": [
-                point_to_json(p, labels) for p in self.model.non_dominated_points
-            ],
-            "dominated": [
-                point_to_json(p, labels) for p in self.model.dominated_points
-            ],
-        }
+        benchmark_result1 = benchmark1.run_algorithm(repeats)
+        benchmark_result2 = benchmark2.run_algorithm(repeats)
+
+        table_data = pd.DataFrame(
+            [
+                {"Algorytm": benchmark_result1["algorithm"],
+                 "Średni czas porównania (ms)": mean(benchmark_result1['times'])*1000,
+                 "Średnia liczba porównań punktów": mean(benchmark_result1["comparison_point_counter"]),
+                 "Średnia liczba porównań współrzędnych": mean(benchmark_result1["comparison_coordinates_counter"])},
+                {"Algorytm": benchmark_result2["algorithm"],
+                 "Średni czas porównania (ms)": mean(benchmark_result2['times'])*1000,
+                 "Średnia liczba porównań punktów": mean(benchmark_result2["comparison_point_counter"]),
+                 "Średnia liczba porównań współrzędnych": mean(benchmark_result2["comparison_coordinates_counter"])}
+            ]
+        )
+        st.session_state[self.cached_table] = table_data
 
     def plot_2Dfigure(self) -> Figure:
         fig, ax = plt.subplots()
@@ -158,39 +204,69 @@ class AlgorithmRunnerView:
 
         st.subheader("Akcje", divider=True)
 
-        left, middle, right = st.columns([2, 1, 1])
+        left, right = st.columns([2, 2])
 
         with left:
             self.selected_algorithm = st.selectbox(
                 "Algorytm OWD", options=list(ALGORITHMS.keys())
             )
-        with middle:
             st.button("Rozwiąż", on_click=presenter.run_algorithm)
         with right:
-            st.button("Benchmark", on_click=presenter.run_benchmark)
+            self.algorithm_for_benchmark1 = st.selectbox(
+                "Pierwszy algorytm OWD do porównania", options=list(ALGORITHMS.keys())
+            )
+            self.algorithm_for_benchmark2 = st.selectbox(
+                "Drugi algorytm OWD do porównania", options=list(ALGORITHMS.keys()), index=1
+            )
+            self.repeats_for_benchmark = st.number_input(
+                "Liczba analizowanych powtórzeń", value=50, min_value=1, max_value=100, step=1
+            )
+            if self.algorithm_for_benchmark1 == self.algorithm_for_benchmark2:
+                st.error("Algorytmy wybrane do analizy muszą być różne")
+            else:
+                st.button("Benchmark", on_click=presenter.run_benchmark)
         
-        if presenter.cached_figure in st.session_state:
+        if presenter.cached_figure and presenter.cached_table in st.session_state:
+            self.display_figure_with_table(figure=st.session_state[presenter.cached_figure],
+                                           table_data=st.session_state[presenter.cached_table])
+        elif presenter.cached_figure and presenter.cached_json in st.session_state:
             self.display_figure_with_json(figure=st.session_state[presenter.cached_figure],
                                           json=st.session_state[presenter.cached_json])
         elif presenter.cached_json in st.session_state:
             self.display_json(st.session_state[presenter.cached_json])
+        else:
+            self.display_no_visualization_message_banner()
 
     def display_json(self, json: dict[str, Any]) -> None:
         """For benchmark results and 5+ dimensional problems (can't plot that)."""
-        right, left = st.columns([1, 1])
-        with right:
+        left, right = st.columns([1, 1])
+        with left:
             st.subheader("Wizualizacja", divider=True)
             st.info("Wizualizacja jest możliwa jedynie dla problemów 2/3/4 wymiarowych.")
-        with left:
+        with right:
             st.subheader("Rozwiązanie", divider=True)
             st.json(json)
 
     def display_figure_with_json(self, figure: Figure, json: dict[str, Any]) -> None:
         """For results of algorithms run on 2/3/4 dimensional problems."""
-        right, left = st.columns([2, 1])
-        with right:
+        left, right = st.columns([2, 1])
+        with left:
             st.subheader("Wizualizacja", divider=True)
             st.pyplot(figure)
-        with left:
+        with right:
             st.subheader("Rozwiązanie", divider=True)
             st.json(json)
+
+    def display_figure_with_table(self, figure: Figure, table_data: dict) -> None:
+        st.subheader("Analiza Benchmark", divider=True)
+        left, right = st.columns([1, 1])
+        with left:
+            st.pyplot(figure)
+        with right:
+            st.data_editor(
+                table_data, disabled=True
+            )
+
+    def display_no_visualization_message_banner(self) -> None:
+        st.subheader("Wizualizacja", divider=True)
+        st.info("Wizualizacja jest możliwa jedynie dla problemów 2/3/4 wymiarowych.")
