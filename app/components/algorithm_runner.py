@@ -2,6 +2,7 @@ from typing import Any
 import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+from matplotlib.colors import Normalize
 import matplotlib.cm as cm
 from ..algorithms.interface import ALGORITHMS, Point, OWDAlgorithm
 
@@ -112,33 +113,43 @@ class AlgorithmRunnerPresenter:
 
     def plot_4Dfigure(self) -> Figure:
         fig = plt.figure()
+        fig.set_size_inches(12, 12)
         ax = fig.add_subplot(111, projection='3d')
 
         x_dominated = [p.x[0] for p in self.model.dominated_points]
         y_dominated = [p.x[1] for p in self.model.dominated_points]
         z_dominated = [p.x[2] for p in self.model.dominated_points]
         c_dominated = [p.x[3] for p in self.model.dominated_points]
-        ax.scatter(x_dominated, y_dominated, z_dominated, c=c_dominated, cmap='rainbow',
-                   marker="o", label="dominated", s=50, alpha=0.6)
+        ax.scatter(x_dominated, y_dominated, z_dominated, c=c_dominated, 
+                        cmap='Blues', marker="o", label="dominated", s=50, alpha=0.6)
 
         x_non_dominated = [p.x[0] for p in self.model.non_dominated_points]
         y_non_dominated = [p.x[1] for p in self.model.non_dominated_points]
         z_non_dominated = [p.x[2] for p in self.model.non_dominated_points]
         c_non_dominated = [p.x[3] for p in self.model.non_dominated_points]
-        ax.scatter(x_non_dominated, y_non_dominated, z_non_dominated, c=c_non_dominated,
-                   cmap='rainbow', marker="^", label="not dominated", s=50, alpha=0.6)
+        ax.scatter(x_non_dominated, y_non_dominated, z_non_dominated, c=c_non_dominated, 
+                        cmap='Oranges', marker="^", label="not dominated", s=50, alpha=0.6)
 
         ax.set_xlabel(self.model.labels[0])
         ax.set_ylabel(self.model.labels[1])
         ax.set_zlabel(self.model.labels[2])
-        ax.set_title("Wyniki działania algorytmu dla podanego zbioru")
 
-        sm = cm.ScalarMappable(cmap='rainbow')
-        sm.set_array(c_non_dominated)
-        cbar = plt.colorbar(sm, ax=ax, pad=0.15)
-        cbar.set_label(self.model.labels[3], rotation=90, labelpad=15)
+        cax1 = fig.add_axes([0.13, 0.5, 0.03, 0.35])
+        sm1 = cm.ScalarMappable(cmap='Blues', norm=Normalize(min(c_dominated), max(c_dominated)))
+        sm1.set_array([])
+        fig.colorbar(sm1, cax=cax1, orientation='vertical')
 
-        ax.legend(loc='center right', bbox_to_anchor=(1, 0.9))
+        cax2 = fig.add_axes([0.13, 0.1, 0.03, 0.35])
+        sm2 = cm.ScalarMappable(cmap='Oranges', norm=Normalize(min(c_non_dominated), max(c_non_dominated)))
+        sm2.set_array([])
+        fig.colorbar(sm2, cax=cax2, orientation='vertical')
+
+        fig.text(0.12, 0.5, self.model.labels[3], rotation=90, va='center', ha='right')
+
+        dominated_proxy = plt.Line2D([0], [0], linestyle='none', c='blue', marker='o', markersize=10, label='Dominated')
+        non_dominated_proxy = plt.Line2D([0], [0], linestyle='none', c='orange', marker='^', markersize=10, label='Non-Dominated')
+
+        ax.legend(handles=[dominated_proxy, non_dominated_proxy], loc='center right', bbox_to_anchor=(1, 0.9))
         ax.grid(True)
         return fig
 
