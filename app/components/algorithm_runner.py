@@ -50,12 +50,9 @@ class AlgorithmRunnerPresenter:
         self.prepare_proper_figure()
 
     def run_benchmark(self) -> None:
-        self.execute_the_algorithm(self.view.algorithm_for_benchmark1)
+        self.execute_the_algorithm(self.view.selected_algorithm)
         self.prepare_proper_figure()
-
-        self.prepare_benchmark_table(self.view.algorithm_for_benchmark1,
-                                     self.view.algorithm_for_benchmark2,
-                                     len(self.model.labels),
+        self.prepare_benchmark_table(len(self.model.labels),
                                      self.model.points,
                                      self.view.repeats_for_benchmark)
 
@@ -90,30 +87,22 @@ class AlgorithmRunnerPresenter:
                 del st.session_state[self.cached_figure]
 
     def prepare_benchmark_table(self,
-                                algorithm1: str,
-                                algorithm2: str,
                                 dimensionality: int,
                                 dataset: list[Point],
                                 repeats: int) -> None:
-        benchmark1 = BenchmarkAnalyzer(algorithm1, dimensionality, dataset)
-        benchmark2 = BenchmarkAnalyzer(algorithm2, dimensionality, dataset)
+        table_data = []
+        for algorithm_name in ALGORITHMS.keys():
+            benchmark = BenchmarkAnalyzer(algorithm_name, dimensionality, dataset)
+            benchmark_result = benchmark.run_algorithm(repeats)
+            data = {
+                "Algorytm": algorithm_name,
+                "Średni czas porównania (ms)": mean(benchmark_result['times']) * 1000,
+                "Średnia liczba porównań punktów": mean(benchmark_result["comparison_point_counter"]),
+                "Średnia liczba porównań współrzędnych": mean(benchmark_result["comparison_coordinates_counter"])
+            }
+            table_data.append(data)
 
-        benchmark_result1 = benchmark1.run_algorithm(repeats)
-        benchmark_result2 = benchmark2.run_algorithm(repeats)
-
-        table_data = pd.DataFrame(
-            [
-                {"Algorytm": benchmark_result1["algorithm"],
-                 "Średni czas porównania (ms)": mean(benchmark_result1['times'])*1000,
-                 "Średnia liczba porównań punktów": mean(benchmark_result1["comparison_point_counter"]),
-                 "Średnia liczba porównań współrzędnych": mean(benchmark_result1["comparison_coordinates_counter"])},
-                {"Algorytm": benchmark_result2["algorithm"],
-                 "Średni czas porównania (ms)": mean(benchmark_result2['times'])*1000,
-                 "Średnia liczba porównań punktów": mean(benchmark_result2["comparison_point_counter"]),
-                 "Średnia liczba porównań współrzędnych": mean(benchmark_result2["comparison_coordinates_counter"])}
-            ]
-        )
-        st.session_state[self.cached_table] = table_data
+        st.session_state[self.cached_table] = pd.DataFrame(table_data)
 
     def plot_2Dfigure(self) -> Figure:
         fig, ax = plt.subplots()
@@ -210,19 +199,10 @@ class AlgorithmRunnerView:
             )
             st.button("Rozwiąż", on_click=presenter.run_algorithm)
         with right:
-            self.algorithm_for_benchmark1 = st.selectbox(
-                "Pierwszy algorytm OWD do porównania", options=list(ALGORITHMS.keys())
-            )
-            self.algorithm_for_benchmark2 = st.selectbox(
-                "Drugi algorytm OWD do porównania", options=list(ALGORITHMS.keys()), index=1
-            )
             self.repeats_for_benchmark = st.number_input(
-                "Liczba analizowanych powtórzeń", value=50, min_value=1, max_value=100, step=1
+                "Liczba analizowanych powtórzeń", value=50, min_value=1, max_value=200, step=10
             )
-            if self.algorithm_for_benchmark1 == self.algorithm_for_benchmark2:
-                st.error("Algorytmy wybrane do analizy muszą być różne")
-            else:
-                st.button("Benchmark", on_click=presenter.run_benchmark)
+            st.button("Benchmark", on_click=presenter.run_benchmark)
         
         if presenter.cached_figure and presenter.cached_table in st.session_state:
             self.display_figure_with_table(figure=st.session_state[presenter.cached_figure],
