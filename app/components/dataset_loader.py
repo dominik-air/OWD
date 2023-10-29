@@ -51,7 +51,7 @@ class DatasetLoaderView:
             and self.get_current_uploaded_file() != uploaded_file.name
         ):
             self.save_current_uploaded_file(uploaded_file.name)
-            dataframe = pd.read_csv(uploaded_file)
+            dataframe = pd.read_csv(uploaded_file, index_col=0)
             presenter.save_data_to_model(dataframe)
         if uploaded_file is None:
             self.save_current_uploaded_file("")

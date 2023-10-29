@@ -84,7 +84,6 @@ class AlgorithmRunnerPresenter:
 
         plt.xlabel(self.model.labels[0])
         plt.ylabel(self.model.labels[1])
-        plt.title("Wyniki działania algorytmu dla podanego zbioru")
         plt.legend(loc='center left', bbox_to_anchor=(1, 0.55))
         plt.grid()
         return fig
@@ -106,7 +105,6 @@ class AlgorithmRunnerPresenter:
         ax.set_xlabel(self.model.labels[0])
         ax.set_ylabel(self.model.labels[1])
         ax.set_zlabel(self.model.labels[2])
-        ax.set_title("Wyniki działania algorytmu dla podanego zbioru")
         ax.legend(loc='center left', bbox_to_anchor=(1, 0.85))
         plt.grid()
         return fig
