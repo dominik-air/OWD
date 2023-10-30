@@ -11,6 +11,7 @@ from app.components.algorithm_runner import AlgorithmRunnerView, AlgorithmRunner
 
 st.set_page_config(page_title="Optymalizacja wielokryterialna", layout="wide")
 st.title("Optymalizacja wielokryterialna")
+st.text("Autorzy:\n Monika Sukiennik\n Igor Ratajczyk\n Dominik Żurek")
 
 # models
 if Model.streamlit_indentifier in st.session_state:
