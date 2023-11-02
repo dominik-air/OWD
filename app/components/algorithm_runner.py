@@ -1,14 +1,9 @@
 from typing import Any
 import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from matplotlib.colors import Normalize
-import plotly.express as px
 import plotly.graph_objects as go
-import numpy as np
 from numpy import mean
-import matplotlib.cm as cm
 from ..algorithms.interface import ALGORITHMS, Point, OWDAlgorithm, BenchmarkAnalyzer
 
 
@@ -154,45 +149,34 @@ class AlgorithmRunnerPresenter:
         return fig
 
     def plot_4Dfigure(self) -> Figure:
-        fig = plt.figure()
-        fig.set_size_inches(12, 12)
-        ax = fig.add_subplot(111, projection='3d')
+        x_dom = [p.x[0] for p in self.model.dominated_points]
+        y_dom = [p.x[1] for p in self.model.dominated_points]
+        z_dom = [p.x[2] for p in self.model.dominated_points]
+        c_dom = [p.x[3] for p in self.model.dominated_points]
+        x_non_dom = [p.x[0] for p in self.model.non_dominated_points]
+        y_non_dom = [p.x[1] for p in self.model.non_dominated_points]
+        z_non_dom = [p.x[2] for p in self.model.non_dominated_points]
+        c_non_dom = [p.x[3] for p in self.model.non_dominated_points]
 
-        x_dominated = [p.x[0] for p in self.model.dominated_points]
-        y_dominated = [p.x[1] for p in self.model.dominated_points]
-        z_dominated = [p.x[2] for p in self.model.dominated_points]
-        c_dominated = [p.x[3] for p in self.model.dominated_points]
-        ax.scatter(x_dominated, y_dominated, z_dominated, c=c_dominated, 
-                        cmap='Blues', marker="o", label="dominated", s=50, alpha=0.6)
+        fig = go.Figure()
+        fig.add_trace(go.Scatter3d(x=x_dom, y=y_dom, z=z_dom, mode='markers', name='dominated',
+                                   marker=dict(symbol='circle', size=5, opacity=0.6, color=c_dom, colorscale='Blues',
+                                               colorbar=dict(title='dominated'), colorbar_x=-0.07)))
+        fig.add_trace(go.Scatter3d(x=x_non_dom, y=y_non_dom, z=z_non_dom, mode='markers', name='not dominated',
+                                   marker=dict(symbol='cross', size=5, opacity=0.6, color=c_non_dom,
+                                               line=dict(width=2),
+                                               colorscale='Oranges', colorbar=dict(title='not dominated'),
+                                               colorbar_x=0.07)))
 
-        x_non_dominated = [p.x[0] for p in self.model.non_dominated_points]
-        y_non_dominated = [p.x[1] for p in self.model.non_dominated_points]
-        z_non_dominated = [p.x[2] for p in self.model.non_dominated_points]
-        c_non_dominated = [p.x[3] for p in self.model.non_dominated_points]
-        ax.scatter(x_non_dominated, y_non_dominated, z_non_dominated, c=c_non_dominated, 
-                        cmap='Oranges', marker="^", label="not dominated", s=50, alpha=0.6)
+        fig.update_layout(
+            scene=dict(
+                xaxis_title=self.model.labels[0],
+                yaxis_title=self.model.labels[1],
+                zaxis_title=self.model.labels[2],
+            ),
+            legend=dict(x=1.1, y=0.5),
+        )
 
-        ax.set_xlabel(self.model.labels[0])
-        ax.set_ylabel(self.model.labels[1])
-        ax.set_zlabel(self.model.labels[2])
-
-        cax1 = fig.add_axes([0.13, 0.5, 0.03, 0.35])
-        sm1 = cm.ScalarMappable(cmap='Blues', norm=Normalize(min(c_dominated), max(c_dominated)))
-        sm1.set_array([])
-        fig.colorbar(sm1, cax=cax1, orientation='vertical')
-
-        cax2 = fig.add_axes([0.13, 0.1, 0.03, 0.35])
-        sm2 = cm.ScalarMappable(cmap='Oranges', norm=Normalize(min(c_non_dominated), max(c_non_dominated)))
-        sm2.set_array([])
-        fig.colorbar(sm2, cax=cax2, orientation='vertical')
-
-        fig.text(0.12, 0.5, self.model.labels[3], rotation=90, va='center', ha='right')
-
-        dominated_proxy = plt.Line2D([0], [0], linestyle='none', c='blue', marker='o', markersize=10, label='Dominated')
-        non_dominated_proxy = plt.Line2D([0], [0], linestyle='none', c='orange', marker='^', markersize=10, label='Non-Dominated')
-
-        ax.legend(handles=[dominated_proxy, non_dominated_proxy], loc='center right', bbox_to_anchor=(1, 0.9))
-        ax.grid(True)
         return fig
 
     def is_table_cached(self) -> bool:
