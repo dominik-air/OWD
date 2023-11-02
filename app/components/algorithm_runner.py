@@ -69,7 +69,7 @@ class AlgorithmRunnerPresenter:
     def execute_the_algorithm(self, algorithm: str) -> None:
         chosen_algorithm = ALGORITHMS[algorithm]
         self.model.process_points_with_algorithm(chosen_algorithm)
-        self.reset_cached_elements()
+        self.clear_cache()
 
     def prepare_proper_figure(self) -> None:
         match len(self.model.labels):
@@ -105,14 +105,6 @@ class AlgorithmRunnerPresenter:
             table_data.append(data)
 
         st.session_state[self.cached_table] = pd.DataFrame(table_data)
-
-    def clear_cache(self) -> None:
-        if self.cached_table in st.session_state:
-            del st.session_state[self.cached_table]
-        if self.cached_json in st.session_state:
-            del st.session_state[self.cached_json]
-        if self.cached_figure in st.session_state:
-            del st.session_state[self.cached_figure]
 
     def plot_2Dfigure(self) -> Figure:
         x_dom = [p.x[0] for p in self.model.dominated_points]
@@ -213,7 +205,7 @@ class AlgorithmRunnerPresenter:
     def is_figure_cached(self) -> bool:
         return self.cached_figure in st.session_state
 
-    def reset_cached_elements(self) -> None:
+    def clear_cache(self) -> None:
         if self.cached_table in st.session_state:
             del st.session_state[self.cached_table]
         if self.cached_json in st.session_state:
