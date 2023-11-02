@@ -119,10 +119,12 @@ class CriteriaEditorView:
     def update_edited_rows(self, presenter: CriteriaPresenter) -> None:
         if self.streamlit_indentifier not in st.session_state:
             return
+        edited_rows = st.session_state[self.streamlit_indentifier]["edited_rows"]
+        if not edited_rows:
+            return
         df = presenter.get_model()
-        for row_id, columns in st.session_state[self.streamlit_indentifier][
-            "edited_rows"
-        ].items():
+        for row_id, columns in edited_rows.items():
             for column_name, column_value in columns.items():
                 df.at[row_id, column_name] = column_value
         presenter.update_model(df)
+        self.update_delete_criteria_selector(presenter.get_columns())
