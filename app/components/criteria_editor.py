@@ -127,4 +127,8 @@ class CriteriaEditorView:
             for column_name, column_value in columns.items():
                 df.at[row_id, column_name] = column_value
         presenter.update_model(df)
-        self.update_delete_criteria_selector(presenter.get_columns())
+        try:
+            self.update_delete_criteria_selector(presenter.get_columns())
+        except st.errors.DuplicateWidgetID:
+            # there is no need to refresh, since the objects have the same parameters
+            pass
