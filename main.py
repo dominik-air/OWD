@@ -6,7 +6,7 @@ from app.components.dataset_generator import (
     DatasetGeneratorView,
     DatasetGeneratorPresenter,
 )
-from app.components.dataset_loader import DatasetLoaderView, DataserLoaderPresenter
+from app.components.dataset_loader import DatasetLoaderView, DatasetLoaderPresenter
 from app.components.algorithm_runner import AlgorithmRunnerView, AlgorithmRunnerPresenter
 
 st.set_page_config(page_title="Optymalizacja wielokryterialna", layout="wide")
@@ -24,9 +24,9 @@ left, right = st.columns(2)
 with left:
     criteria_editor_placeholder = st.empty()
     dataset_generator_placeholder = st.empty()
-    dataset_loader_placeholder = st.empty()
 with right:
     datatable_placeholder = st.empty()
+    dataset_loader_placeholder = st.empty()
 algorithm_runner_placeholder = st.empty()
 
 # views
@@ -38,7 +38,7 @@ algorithm_runner_view = AlgorithmRunnerView()
 
 # presenters
 with dataset_loader_placeholder.container():
-    DataserLoaderPresenter(model=model, view=dataset_loader_view)
+    DatasetLoaderPresenter(model=model, view=dataset_loader_view)
 with criteria_editor_placeholder.container():
     CriteriaPresenter(model=model, view=criteria_view)
 with dataset_generator_placeholder.container():

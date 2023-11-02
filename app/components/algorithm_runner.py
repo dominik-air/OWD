@@ -27,12 +27,12 @@ class Model:
     def process_points_with_algorithm(self, algorithm: OWDAlgorithm) -> None:
         ...
 
+
 def point_to_json(p: Point, labels: list[str]) -> dict[str, Any]:
     return {labels[i]: p.x[i] for i in range(len(labels))}
 
 
 class AlgorithmRunnerPresenter:
-
     cached_figure = "cached_figure"
     cached_json = "cached_json"
     cached_table = "cached_table"
@@ -50,9 +50,9 @@ class AlgorithmRunnerPresenter:
     def run_benchmark(self) -> None:
         self.execute_the_algorithm(self.view.selected_algorithm)
         self.prepare_proper_figure()
-        self.prepare_benchmark_table(len(self.model.labels),
-                                     self.model.points,
-                                     self.view.repeats_for_benchmark)
+        self.prepare_benchmark_table(
+            len(self.model.labels), self.model.points, self.view.repeats_for_benchmark
+        )
 
     def prepare_results_json(self) -> None:
         labels = self.model.labels
@@ -83,25 +83,36 @@ class AlgorithmRunnerPresenter:
                 figure = self.plot_4Dfigure()
                 st.session_state[self.cached_figure] = figure
             case _:
-                pass
+                return
 
-    def prepare_benchmark_table(self,
-                                dimensionality: int,
-                                dataset: list[Point],
-                                repeats: int) -> None:
+    def prepare_benchmark_table(
+        self, dimensionality: int, dataset: list[Point], repeats: int
+    ) -> None:
         table_data = []
         for algorithm_name in ALGORITHMS.keys():
             benchmark = BenchmarkAnalyzer(algorithm_name, dimensionality, dataset)
             benchmark_result = benchmark.run_algorithm(repeats)
             data = {
                 "Algorytm": algorithm_name,
-                "Średni czas porównania (ms)": mean(benchmark_result['times']) * 1000,
-                "Średnia liczba porównań punktów": mean(benchmark_result["comparison_point_counter"]),
-                "Średnia liczba porównań współrzędnych": mean(benchmark_result["comparison_coordinates_counter"])
+                "Średni czas porównania (ms)": mean(benchmark_result["times"]) * 1000,
+                "Średnia liczba porównań punktów": mean(
+                    benchmark_result["comparison_point_counter"]
+                ),
+                "Średnia liczba porównań współrzędnych": mean(
+                    benchmark_result["comparison_coordinates_counter"]
+                ),
             }
             table_data.append(data)
 
         st.session_state[self.cached_table] = pd.DataFrame(table_data)
+
+    def clear_cache(self) -> None:
+        if self.cached_table in st.session_state:
+            del st.session_state[self.cached_table]
+        if self.cached_json in st.session_state:
+            del st.session_state[self.cached_json]
+        if self.cached_figure in st.session_state:
+            del st.session_state[self.cached_figure]
 
     def plot_2Dfigure(self) -> Figure:
         x_dom = [p.x[0] for p in self.model.dominated_points]
@@ -212,7 +223,6 @@ class AlgorithmRunnerPresenter:
 
 
 class AlgorithmRunnerView:
-
     def init_ui(self, presenter: AlgorithmRunnerPresenter) -> None:
         st.subheader("Akcje", divider=True)
 
@@ -225,7 +235,11 @@ class AlgorithmRunnerView:
             st.button("Rozwiąż", on_click=presenter.run_algorithm)
         with right:
             self.repeats_for_benchmark = st.number_input(
-                "Liczba analizowanych powtórzeń", value=50, min_value=1, max_value=200, step=10
+                "Liczba analizowanych powtórzeń",
+                value=50,
+                min_value=1,
+                max_value=200,
+                step=10,
             )
             st.button("Benchmark", on_click=presenter.run_benchmark)
 
@@ -243,14 +257,28 @@ class AlgorithmRunnerView:
             self.display_no_visualization_message_banner()
 
     def display_json(self, json: dict[str, Any]) -> None:
-        """For 5+ dimensional problems (can't plot that)."""
+        """For solving 5+ dimensional problems (can't plot that)."""
         left, right = st.columns([1, 1])
         with left:
             st.subheader("Wizualizacja", divider=True)
-            st.info("Wizualizacja jest możliwa jedynie dla problemów 2/3/4 wymiarowych.")
+            st.info(
+                "Wizualizacja jest możliwa jedynie dla problemów 2/3/4 wymiarowych."
+            )
         with right:
             st.subheader("Rozwiązanie", divider=True)
             st.json(json)
+
+    def display_table(self, table_data: dict) -> None:
+        """For benchmarking algortihms on 5+ dimensional problems (can't plot that)."""
+        left, right = st.columns([1, 1])
+        with left:
+            st.subheader("Wizualizacja", divider=True)
+            st.info(
+                "Wizualizacja jest możliwa jedynie dla problemów 2/3/4 wymiarowych."
+            )
+        with right:
+            st.subheader("Analiza benchmark", divider=True)
+            st.data_editor(table_data, disabled=True)
 
     def display_figure_with_json(self, figure: Figure, json: dict[str, Any]) -> None:
         """For results of algorithms run on 2/3/4 dimensional problems."""
