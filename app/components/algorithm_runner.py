@@ -71,8 +71,7 @@ class AlgorithmRunnerPresenter:
     def execute_the_algorithm(self, algorithm: str) -> None:
         chosen_algorithm = ALGORITHMS[algorithm]
         self.model.process_points_with_algorithm(chosen_algorithm)
-        if self.cached_table in st.session_state:
-            del st.session_state[self.cached_table]
+        self.reset_cached_elements()
 
     def prepare_proper_figure(self) -> None:
         match len(self.model.labels):
@@ -86,7 +85,7 @@ class AlgorithmRunnerPresenter:
                 figure = self.plot_4Dfigure()
                 st.session_state[self.cached_figure] = figure
             case _:
-                del st.session_state[self.cached_figure]
+                pass
 
     def prepare_benchmark_table(self,
                                 dimensionality: int,
@@ -186,11 +185,27 @@ class AlgorithmRunnerPresenter:
         ax.grid(True)
         return fig
 
+    def is_table_cached(self) -> bool:
+        return self.cached_table in st.session_state
+
+    def is_json_cached(self) -> bool:
+        return self.cached_json in st.session_state
+
+    def is_figure_cached(self) -> bool:
+        return self.cached_figure in st.session_state
+
+    def reset_cached_elements(self) -> None:
+        if self.cached_table in st.session_state:
+            del st.session_state[self.cached_table]
+        if self.cached_json in st.session_state:
+            del st.session_state[self.cached_json]
+        if self.cached_figure in st.session_state:
+            del st.session_state[self.cached_figure]
+
 
 class AlgorithmRunnerView:
 
     def init_ui(self, presenter: AlgorithmRunnerPresenter) -> None:
-
         st.subheader("Akcje", divider=True)
 
         left, right = st.columns([2, 2])
@@ -205,20 +220,22 @@ class AlgorithmRunnerView:
                 "Liczba analizowanych powtórzeń", value=50, min_value=1, max_value=200, step=10
             )
             st.button("Benchmark", on_click=presenter.run_benchmark)
-        
-        if presenter.cached_figure and presenter.cached_table in st.session_state:
+
+        if presenter.is_figure_cached() and presenter.is_table_cached():
             self.display_figure_with_table(figure=st.session_state[presenter.cached_figure],
                                            table_data=st.session_state[presenter.cached_table])
-        elif presenter.cached_figure and presenter.cached_json in st.session_state:
+        elif presenter.is_figure_cached() and presenter.is_json_cached():
             self.display_figure_with_json(figure=st.session_state[presenter.cached_figure],
                                           json=st.session_state[presenter.cached_json])
-        elif presenter.cached_json in st.session_state:
+        elif presenter.is_json_cached():
             self.display_json(st.session_state[presenter.cached_json])
+        elif presenter.is_table_cached():
+            self.display_table(st.session_state[presenter.cached_table])
         else:
             self.display_no_visualization_message_banner()
 
     def display_json(self, json: dict[str, Any]) -> None:
-        """For benchmark results and 5+ dimensional problems (can't plot that)."""
+        """For 5+ dimensional problems (can't plot that)."""
         left, right = st.columns([1, 1])
         with left:
             st.subheader("Wizualizacja", divider=True)
@@ -238,15 +255,30 @@ class AlgorithmRunnerView:
             st.json(json)
 
     def display_figure_with_table(self, figure: Figure, table_data: dict) -> None:
-        st.subheader("Analiza Benchmark", divider=True)
+        """For results of benchmark run on 2/3/4 dimensional problems."""
         left, right = st.columns([1, 1])
         with left:
+            st.subheader("Wizualizacja", divider=True)
             st.pyplot(figure)
         with right:
+            st.subheader("Analiza Benchmark", divider=True)
+            st.data_editor(
+                table_data, disabled=True
+            )
+
+    def display_table(self, table_data: dict) -> None:
+        """For 5+ dimensional problems (can't plot that)."""
+        left, right = st.columns([1, 1])
+        with left:
+            st.subheader("Wizualizacja", divider=True)
+            st.info("Wizualizacja jest możliwa jedynie dla problemów 2/3/4 wymiarowych.")
+        with right:
+            st.subheader("Analiza Benchmark", divider=True)
             st.data_editor(
                 table_data, disabled=True
             )
 
     def display_no_visualization_message_banner(self) -> None:
+        """Initial message about visualization"""
         st.subheader("Wizualizacja", divider=True)
         st.info("Wizualizacja jest możliwa jedynie dla problemów 2/3/4 wymiarowych.")
