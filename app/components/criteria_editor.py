@@ -42,7 +42,12 @@ class CriteriaPresenter:
         )
 
     def get_default_new_criteria_name(self) -> str:
-        return f"Nowe Kryterium #{len(self.model.labels) + 1}"
+        index = 1
+        new_criteria_name = f"Nowe Kryterium #{index}"
+        while new_criteria_name in self.model.labels:
+            index += 1
+            new_criteria_name = f"Nowe Kryterium #{index}"
+        return new_criteria_name
 
     def update_model(self, updated: pd.DataFrame) -> None:
         new_labels = updated["Nazwa"].tolist()
