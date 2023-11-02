@@ -51,11 +51,8 @@ class DatasetGeneratorPresenter:
     def sort_by(self, criteria_name: str) -> None:
         col_index = self.model.labels.index(criteria_name)
         ascending = self.model.directions[col_index] == "Min"
-        data = self.model.data
-        if ascending:
-            self.model.data = data[data[:, col_index].argsort()]
-        else:
-            self.model.data = data[data[:, col_index].argsort()][::-1]
+        sorted_data = self.model.data[self.model.data[:, col_index].argsort()]
+        self.model.data = sorted_data if ascending else sorted_data[::-1]
 
 class DatasetGeneratorView:
     def __init__(self) -> None:
