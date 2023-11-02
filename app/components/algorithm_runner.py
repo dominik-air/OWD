@@ -4,6 +4,9 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.colors import Normalize
+import plotly.express as px
+import plotly.graph_objects as go
+import numpy as np
 from numpy import mean
 import matplotlib.cm as cm
 from ..algorithms.interface import ALGORITHMS, Point, OWDAlgorithm, BenchmarkAnalyzer
@@ -106,41 +109,49 @@ class AlgorithmRunnerPresenter:
         st.session_state[self.cached_table] = pd.DataFrame(table_data)
 
     def plot_2Dfigure(self) -> Figure:
-        fig, ax = plt.subplots()
+        x_dom = [p.x[0] for p in self.model.dominated_points]
+        y_dom = [p.x[1] for p in self.model.dominated_points]
+        x_non_dom = [p.x[0] for p in self.model.non_dominated_points]
+        y_non_dom = [p.x[1] for p in self.model.non_dominated_points]
 
-        x = [p.x[0] for p in self.model.dominated_points]
-        y = [p.x[1] for p in self.model.dominated_points]
-        ax.scatter(x, y, marker="o", label="dominated", zorder=3)
+        fig = px.scatter()
+        fig.add_trace(go.Scatter(x=x_dom, y=y_dom, mode='markers', name='dominated', marker_symbol='circle',
+                                 marker=dict(size=10)))
+        fig.add_trace(go.Scatter(x=x_non_dom, y=y_non_dom, mode='markers', name='not dominated', marker_symbol='x',
+                                 marker=dict(size=10)))
 
-        x = [p.x[0] for p in self.model.non_dominated_points]
-        y = [p.x[1] for p in self.model.non_dominated_points]
-        ax.scatter(x, y, marker="^", label="not dominated", zorder=3)
+        fig.update_layout(
+            xaxis_title=self.model.labels[0],
+            yaxis_title=self.model.labels[1],
+            legend=dict(x=1.1, y=0.5),
+        )
 
-        plt.xlabel(self.model.labels[0])
-        plt.ylabel(self.model.labels[1])
-        plt.legend(loc='center left', bbox_to_anchor=(1, 0.55))
-        plt.grid()
         return fig
 
     def plot_3Dfigure(self) -> Figure:
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
+        x_dom = [p.x[0] for p in self.model.dominated_points]
+        y_dom = [p.x[1] for p in self.model.dominated_points]
+        z_dom = [p.x[2] for p in self.model.dominated_points]
+        x_non_dom = [p.x[0] for p in self.model.non_dominated_points]
+        y_non_dom = [p.x[1] for p in self.model.non_dominated_points]
+        z_non_dom = [p.x[2] for p in self.model.non_dominated_points]
 
-        x = [p.x[0] for p in self.model.dominated_points]
-        y = [p.x[1] for p in self.model.dominated_points]
-        z = [p.x[2] for p in self.model.dominated_points]
-        ax.scatter(x, y, z, marker="o", label="dominated", s=50, alpha=0.6)
+        fig = go.Figure()
+        fig.add_trace(
+            go.Scatter3d(x=x_dom, y=y_dom, z=z_dom, mode='markers',
+                         name='dominated', marker=dict(size=5, opacity=0.6)))
+        fig.add_trace(go.Scatter3d(x=x_non_dom, y=y_non_dom, z=z_non_dom, mode='markers', name='not dominated',
+                                   marker=dict(size=5, opacity=0.6)))
 
-        x = [p.x[0] for p in self.model.non_dominated_points]
-        y = [p.x[1] for p in self.model.non_dominated_points]
-        z = [p.x[2] for p in self.model.non_dominated_points]
-        ax.scatter(x, y, z, marker="^", label="not dominated", s=50, alpha=0.6)
+        fig.update_layout(
+            scene=dict(
+                xaxis_title=self.model.labels[0],
+                yaxis_title=self.model.labels[1],
+                zaxis_title=self.model.labels[2],
+            ),
+            legend=dict(x=1.1, y=0.5),
+        )
 
-        ax.set_xlabel(self.model.labels[0])
-        ax.set_ylabel(self.model.labels[1])
-        ax.set_zlabel(self.model.labels[2])
-        ax.legend(loc='center left', bbox_to_anchor=(1, 0.85))
-        plt.grid()
         return fig
 
     def plot_4Dfigure(self) -> Figure:
@@ -249,7 +260,7 @@ class AlgorithmRunnerView:
         left, right = st.columns([2, 1])
         with left:
             st.subheader("Wizualizacja", divider=True)
-            st.pyplot(figure)
+            st.plotly_chart(figure, use_container_width=True)
         with right:
             st.subheader("Rozwiązanie", divider=True)
             st.json(json)
@@ -259,7 +270,7 @@ class AlgorithmRunnerView:
         left, right = st.columns([1, 1])
         with left:
             st.subheader("Wizualizacja", divider=True)
-            st.pyplot(figure)
+            st.plotly_chart(figure, use_container_width=True)
         with right:
             st.subheader("Analiza Benchmark", divider=True)
             st.data_editor(
