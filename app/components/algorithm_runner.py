@@ -114,10 +114,10 @@ class AlgorithmRunnerPresenter:
         x_non_dom = [p.x[0] for p in self.model.non_dominated_points]
         y_non_dom = [p.x[1] for p in self.model.non_dominated_points]
 
-        fig = px.scatter()
-        fig.add_trace(go.Scatter(x=x_dom, y=y_dom, mode='markers', name='dominated', marker_symbol='circle',
-                                 marker=dict(size=10)))
-        fig.add_trace(go.Scatter(x=x_non_dom, y=y_non_dom, mode='markers', name='not dominated', marker_symbol='x',
+        fig = go.Figure()
+        fig.add_trace(
+            go.Scatter(x=x_dom, y=y_dom, mode='markers', name='dominated', marker_symbol='circle', marker=dict(size=10)))
+        fig.add_trace(go.Scatter(x=x_non_dom, y=y_non_dom, mode='markers', name='not dominated', marker_symbol='cross',
                                  marker=dict(size=10)))
 
         fig.update_layout(
@@ -137,11 +137,10 @@ class AlgorithmRunnerPresenter:
         z_non_dom = [p.x[2] for p in self.model.non_dominated_points]
 
         fig = go.Figure()
-        fig.add_trace(
-            go.Scatter3d(x=x_dom, y=y_dom, z=z_dom, mode='markers',
-                         name='dominated', marker=dict(size=5, opacity=0.6)))
+        fig.add_trace(go.Scatter3d(x=x_dom, y=y_dom, z=z_dom, mode='markers', name='dominated',
+                                   marker=dict(symbol='circle', size=5, opacity=0.6)))
         fig.add_trace(go.Scatter3d(x=x_non_dom, y=y_non_dom, z=z_non_dom, mode='markers', name='not dominated',
-                                   marker=dict(size=5, opacity=0.6)))
+                                   marker=dict(symbol='cross', size=5, opacity=0.6, line=dict(width=2, color='red'))))
 
         fig.update_layout(
             scene=dict(
@@ -260,7 +259,8 @@ class AlgorithmRunnerView:
         left, right = st.columns([2, 1])
         with left:
             st.subheader("Wizualizacja", divider=True)
-            st.plotly_chart(figure, use_container_width=True)
+            figure.update_layout(margin=dict(l=0, r=0, b=0, t=0))
+            st.plotly_chart(figure, use_container_width=True, use_container_height=True)
         with right:
             st.subheader("Rozwiązanie", divider=True)
             st.json(json)
@@ -270,7 +270,8 @@ class AlgorithmRunnerView:
         left, right = st.columns([1, 1])
         with left:
             st.subheader("Wizualizacja", divider=True)
-            st.plotly_chart(figure, use_container_width=True)
+            figure.update_layout(margin=dict(l=0, r=0, b=0, t=0))
+            st.plotly_chart(figure, use_container_width=True, use_container_height=True)
         with right:
             st.subheader("Analiza Benchmark", divider=True)
             st.data_editor(
