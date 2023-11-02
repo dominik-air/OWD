@@ -15,6 +15,10 @@ class Model:
     @property
     def labels(self) -> list[str]:
         ...
+    
+    @property
+    def directions(self) -> list[str]:
+        ...
 
 
 class DatasetGeneratorPresenter:
@@ -22,6 +26,9 @@ class DatasetGeneratorPresenter:
         self.model = model
         self.view = view
         self.view.init_ui(self)
+    
+    def get_criterias(self) -> list[str]:
+        return self.model.labels
 
     def generate_dataset(self, params) -> None:
         data_shape = (params["obj_count"], len(self.model.labels))
@@ -40,7 +47,15 @@ class DatasetGeneratorPresenter:
         if params["dist"] not in distribution_functions:
             raise ValueError
         self.model.data = distribution_functions[params["dist"]]()
-
+     
+    def sort_by(self, criteria_name: str) -> None:
+        col_index = self.model.labels.index(criteria_name)
+        ascending = self.model.directions[col_index] == "Min"
+        data = self.model.data
+        if ascending:
+            self.model.data = data[data[:, col_index].argsort()]
+        else:
+            self.model.data = data[data[:, col_index].argsort()][::-1]
 
 class DatasetGeneratorView:
     def __init__(self) -> None:
@@ -70,9 +85,14 @@ class DatasetGeneratorView:
             if st.button("Generuj"):
                 presenter.generate_dataset(self.generator_params)
         with middle:
-            st.button("Sortuj")
+            sort_button_placeholder = st.empty()
         with right:
-            st.selectbox("Sortowanie po kryterium:", options=[1, 2, 3])
+            criteria_selector_placeholder = st.empty()
+        
+        criteria = criteria_selector_placeholder.selectbox("Sortowanie po kryterium:", options=presenter.get_criterias())
+        
+        if sort_button_placeholder.button("Sortuj"):
+            presenter.sort_by(criteria)
 
     def _display_gauss_parameters(self):
         left, middle, right = st.columns(3)
