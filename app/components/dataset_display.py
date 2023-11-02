@@ -43,7 +43,10 @@ class DataTableView:
     def init_ui(self, presenter: DataTablePresenter) -> None:
         st.subheader("Podgląd zbioru danych", divider=True)
         st.data_editor(
-            presenter.load_dataframe(), key=self.streamlit_indentifier, disabled=True
+            presenter.load_dataframe(),
+            key=self.streamlit_indentifier,
+            disabled=True,
+            use_container_width=True,
         )
 
     def clear_display(self):
