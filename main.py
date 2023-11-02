@@ -24,9 +24,9 @@ left, right = st.columns(2)
 with left:
     criteria_editor_placeholder = st.empty()
     dataset_generator_placeholder = st.empty()
-    dataset_loader_placeholder = st.empty()
 with right:
     datatable_placeholder = st.empty()
+    dataset_loader_placeholder = st.empty()
 algorithm_runner_placeholder = st.empty()
 
 # views
