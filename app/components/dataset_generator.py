@@ -15,7 +15,7 @@ class Model:
     @property
     def labels(self) -> list[str]:
         ...
-    
+
     @property
     def directions(self) -> list[str]:
         ...
@@ -26,33 +26,32 @@ class DatasetGeneratorPresenter:
         self.model = model
         self.view = view
         self.view.init_ui(self)
-    
+
     def get_criterias(self) -> list[str]:
         return self.model.labels
 
     def generate_dataset(self, params) -> None:
         data_shape = (params["obj_count"], len(self.model.labels))
         distribution_functions = {
-            "Gaussa": lambda: normal(loc=params["mean"],
-                                     scale=params["std"],
-                                     size=data_shape),
-            "Poissona": lambda: poisson(lam=params["lambda"],
-                                        size=data_shape),
-            "Wykładniczy": lambda: exponential(scale=params["lambda"],
-                                               size=data_shape),
-            "Jednostajny": lambda: uniform(low=params["a"],
-                                           high=params["b"],
-                                           size=data_shape)
+            "Gaussa": lambda: normal(
+                loc=params["mean"], scale=params["std"], size=data_shape
+            ),
+            "Poissona": lambda: poisson(lam=params["lambda"], size=data_shape),
+            "Wykładniczy": lambda: exponential(scale=params["lambda"], size=data_shape),
+            "Jednostajny": lambda: uniform(
+                low=params["a"], high=params["b"], size=data_shape
+            ),
         }
         if params["dist"] not in distribution_functions:
             raise ValueError
         self.model.data = distribution_functions[params["dist"]]()
-     
+
     def sort_by(self, criteria_name: str) -> None:
         col_index = self.model.labels.index(criteria_name)
         ascending = self.model.directions[col_index] == "Min"
         sorted_data = self.model.data[self.model.data[:, col_index].argsort()]
         self.model.data = sorted_data if ascending else sorted_data[::-1]
+
 
 class DatasetGeneratorView:
     def __init__(self) -> None:
@@ -67,32 +66,47 @@ class DatasetGeneratorView:
 
     def init_ui(self, presenter: DatasetGeneratorPresenter) -> None:
         st.subheader("Generator zbioru danych", divider=True)
-        dist = st.selectbox(
-            "Rozkład",
-            key="distribution_selector",
-            options=list(self.distribution_to_parameters.keys()),
-        )
+
+        left, right = st.columns([3, 1])
+        with left:
+            dist = st.selectbox(
+                "Rozkład",
+                key="distribution_selector",
+                options=list(self.distribution_to_parameters.keys()),
+            )
+
+        with right:
+            self._display_dataset_count()
 
         self.generator_params["dist"] = dist
 
         self.distribution_to_parameters[dist]()
 
-        left, middle, right = st.columns([1, 1, 2])
+        left, _, right = st.columns([1, 1, 2])
         with left:
             if st.button("Generuj"):
                 presenter.generate_dataset(self.generator_params)
-        with middle:
-            sort_button_placeholder = st.empty()
         with right:
-            criteria_selector_placeholder = st.empty()
-        
-        criteria = criteria_selector_placeholder.selectbox("Sortowanie po kryterium:", options=presenter.get_criterias())
-        
-        if sort_button_placeholder.button("Sortuj"):
-            presenter.sort_by(criteria)
+            criteria = st.selectbox(
+                "Sortowanie po kryterium:", options=presenter.get_criterias()
+            )
+            if st.button("Sortuj"):
+                presenter.sort_by(criteria)
+
+    def _display_object_count(self) -> None:
+        obj_count = st.number_input(
+            "Liczba obiektów", value=20, min_value=10, max_value=100, step=10
+        )
+        self.generator_params["obj_count"] = obj_count
+
+    def _display_dataset_count(self) -> None:
+        dataset_count = st.number_input(
+            "Liczba zbiorów danych", value=20, min_value=10, max_value=100, step=10
+        )
+        self.generator_params["dataset_count"] = dataset_count
 
     def _display_gauss_parameters(self):
-        left, middle, right = st.columns(3)
+        left, middle, right = st.columns([3, 3, 2])
         with left:
             mean = st.number_input(
                 "Średnia", value=0, min_value=-10, max_value=10, step=1
@@ -104,10 +118,7 @@ class DatasetGeneratorView:
             )
             self.generator_params["std"] = std
         with right:
-            obj_count = st.number_input(
-                "Liczba obiektów", value=20, min_value=10, max_value=100, step=10
-            )
-            self.generator_params["obj_count"] = obj_count
+            self._display_object_count()
 
     def _display_uniform_parameters(self):
         left, right = st.columns([3, 1])
@@ -116,10 +127,7 @@ class DatasetGeneratorView:
             self.generator_params["a"] = a
             self.generator_params["b"] = b
         with right:
-            obj_count = st.number_input(
-                "Liczba obiektów", value=20, min_value=10, max_value=100, step=10
-            )
-            self.generator_params["obj_count"] = obj_count
+            self._display_object_count()
 
     def _display_exponential_parameters(self):
         left, right = st.columns([3, 1])
@@ -129,10 +137,7 @@ class DatasetGeneratorView:
             )
             self.generator_params["lambda"] = lambda_
         with right:
-            obj_count = st.number_input(
-                "Liczba obiektów", value=20, min_value=10, max_value=100, step=10
-            )
-            self.generator_params["obj_count"] = obj_count
+            self._display_object_count()
 
     def _display_poisson_parameters(self):
         left, right = st.columns([3, 1])
@@ -142,7 +147,4 @@ class DatasetGeneratorView:
             )
             self.generator_params["lambda"] = lambda_
         with right:
-            obj_count = st.number_input(
-                "Liczba obiektów", value=20, min_value=10, max_value=100, step=10
-            )
-            self.generator_params["obj_count"] = obj_count
+            self._display_object_count()
