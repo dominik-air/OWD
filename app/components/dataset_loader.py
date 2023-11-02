@@ -30,7 +30,7 @@ class Model(Protocol):
         ...
 
 
-class DataserLoaderPresenter:
+class DatasetLoaderPresenter:
     def __init__(self, model: Model, view: "DatasetLoaderView") -> None:
         self.model = model
         self.view = view
@@ -43,7 +43,7 @@ class DataserLoaderPresenter:
 
 
 class DatasetLoaderView:
-    def init_ui(self, presenter: DataserLoaderPresenter) -> None:
+    def init_ui(self, presenter: DatasetLoaderPresenter) -> None:
         st.subheader("Moduł ładujący zbiór danych", divider=True)
         uploaded_file = st.file_uploader("Dodaj plik z danymi")
         if (
