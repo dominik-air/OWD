@@ -88,11 +88,13 @@ class CriteriaEditorView:
             presenter.remove_column(column_to_remove)
             self.update_delete_criteria_selector(presenter.get_columns())
 
-        edited_df = st.data_editor(
+        self.update_edited_rows(presenter)
+
+        st.data_editor(
             presenter.get_model(),
             key=self.streamlit_indentifier,
-            num_rows="fixed",
             hide_index=True,
+            use_container_width=True,
             column_config={
                 "Nazwa": st.column_config.TextColumn(
                     "Nazwa",
@@ -108,9 +110,19 @@ class CriteriaEditorView:
                 ),
             },
         )
-        presenter.update_model(edited_df)
 
     def update_delete_criteria_selector(self, columns: list[str]) -> None:
         self.delete_criteria_selector_placeholder.selectbox(
             "Wybierz kolumnę do usunięcia", columns
         )
+
+    def update_edited_rows(self, presenter: CriteriaPresenter) -> None:
+        if self.streamlit_indentifier not in st.session_state:
+            return
+        df = presenter.get_model()
+        for row_id, columns in st.session_state[self.streamlit_indentifier][
+            "edited_rows"
+        ].items():
+            for column_name, column_value in columns.items():
+                df.at[row_id, column_name] = column_value
+        presenter.update_model(df)
