@@ -110,10 +110,10 @@ class AlgorithmRunnerPresenter:
         y_non_dom = [p.x[1] for p in self.model.non_dominated_points]
 
         fig = go.Figure()
-        fig.add_trace(
-            go.Scatter(x=x_dom, y=y_dom, mode='markers', name='dominated', marker_symbol='circle', marker=dict(size=10)))
-        fig.add_trace(go.Scatter(x=x_non_dom, y=y_non_dom, mode='markers', name='not dominated', marker_symbol='cross',
-                                 marker=dict(size=10)))
+        fig.add_trace(go.Scatter(x=x_dom, y=y_dom, mode='markers',
+                                 name='dominated', marker_symbol='circle', marker=dict(size=10)))
+        fig.add_trace(go.Scatter(x=x_non_dom, y=y_non_dom, mode='markers',
+                                 name='not dominated', marker_symbol='circle', marker=dict(size=10)))
 
         fig.update_layout(
             xaxis_title=self.model.labels[0],
@@ -135,7 +135,7 @@ class AlgorithmRunnerPresenter:
         fig.add_trace(go.Scatter3d(x=x_dom, y=y_dom, z=z_dom, mode='markers', name='dominated',
                                    marker=dict(symbol='circle', size=5, opacity=0.6)))
         fig.add_trace(go.Scatter3d(x=x_non_dom, y=y_non_dom, z=z_non_dom, mode='markers', name='not dominated',
-                                   marker=dict(symbol='cross', size=5, opacity=0.6, line=dict(width=2, color='red'))))
+                                   marker=dict(symbol='circle', size=5, opacity=0.6)))
 
         fig.update_layout(
             scene=dict(
@@ -160,12 +160,12 @@ class AlgorithmRunnerPresenter:
 
         fig = go.Figure()
         fig.add_trace(go.Scatter3d(x=x_dom, y=y_dom, z=z_dom, mode='markers', name='dominated',
-                                   marker=dict(symbol='circle', size=5, opacity=0.6, color=c_dom, colorscale='Blues',
-                                               colorbar=dict(title='dominated'), colorbar_x=-0.07)))
+                                   marker=dict(symbol='circle', size=5, opacity=0.6, color=c_dom,
+                                               colorscale='Blues', colorbar=dict(),
+                                               colorbar_x=-0.07)))
         fig.add_trace(go.Scatter3d(x=x_non_dom, y=y_non_dom, z=z_non_dom, mode='markers', name='not dominated',
-                                   marker=dict(symbol='cross', size=5, opacity=0.6, color=c_non_dom,
-                                               line=dict(width=2),
-                                               colorscale='Oranges', colorbar=dict(title='not dominated'),
+                                   marker=dict(symbol='circle', size=5, opacity=0.6, color=c_non_dom,
+                                               colorscale='Reds', colorbar=dict(),
                                                colorbar_x=0.07)))
 
         fig.update_layout(
@@ -175,6 +175,20 @@ class AlgorithmRunnerPresenter:
                 zaxis_title=self.model.labels[2],
             ),
             legend=dict(x=1.1, y=0.5),
+            annotations=[
+                dict(
+                    text=self.model.labels[3],
+                    font_size=16,
+                    font_family='arial',
+                    font_color='white',
+                    textangle=90,
+                    showarrow=False,
+                    xref="paper",
+                    yref="paper",
+                    x=0.025,
+                    y=0.32
+                )
+            ]
         )
 
         return fig
