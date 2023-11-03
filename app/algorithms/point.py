@@ -54,6 +54,18 @@ class Point:
     def get_global_coordinate_counter(cls) -> int:
         return cls.global_coordinate_counter
 
+    def adjust_signs_for_optimization(self, directions: list[str]) -> None:
+        if len(directions) != self.dim:
+            raise ValueError("Length of directions must match the dimensionality of the point.")
+
+        for i, direction in enumerate(directions):
+            if direction == 'Min':
+                self.x[i] = self.x[i]
+            elif direction == 'Max':
+                self.x[i] = -self.x[i]
+            else:
+                raise ValueError(f"Invalid optimization direction '{direction}' at index {i}; expected 'Min' or 'Max'.")
+
 
 def create_points_from_datapoints(datapoints: Iterable[tuple[int | float]]) -> list[Point]:
     return [Point(np.array(dp)) for dp in datapoints]

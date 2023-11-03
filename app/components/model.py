@@ -57,10 +57,18 @@ class Model:
         return self._non_dominated_points
 
     def process_points_with_algorithm(self, algorithm: OWDAlgorithm) -> None:
-        non_dominated = algorithm(self.points)
+        points = self.points
+        # flip the signs for optimisation
+        for p in points:
+            p.adjust_signs_for_optimization(self.directions)
+        non_dominated = algorithm(points)
+        # bring back the previous values
+        for p in non_dominated:
+            p.adjust_signs_for_optimization(self.directions)
         self._non_dominated_points = non_dominated
         self._dominated_points = self._filter_non_dominated(non_dominated)
         self.checkpoint()
+    
 
     def _filter_non_dominated(self, non_dominated: list[Point]) -> list[Point]:
         dominated = []
