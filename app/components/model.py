@@ -8,7 +8,7 @@ class Model:
     streamlit_indentifier = "data_model"
 
     def __init__(self) -> None:
-        self._data: np.ndarray = np.array([[1, 1], [2, 2], [3, 3]] * 10)
+        self._data: np.ndarray = np.random.normal(0, 1, size=(20, 2))
         self._labels: list[str] = ["x", "y"]
         self._directions: list[str] = ["Min", "Max"]
         self._dominated_points: list[Point] = []
