@@ -95,7 +95,7 @@ class DatasetGeneratorView:
 
     def _display_object_count(self) -> None:
         obj_count = st.number_input(
-            "Liczba obiektów", value=20, min_value=10, max_value=100, step=10
+            "Liczba obiektów", value=100, min_value=20, max_value=2000, step=100
         )
         self.generator_params["obj_count"] = obj_count
 
