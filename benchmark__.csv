@@ -1,0 +1,721 @@
+distribution,algorithm,dimensionality,cardinality,sorted,times,comparison_point_counter,comparison_coordinates_counter,parsed
+uniform,ideal point method,2,100,False,0.011022099992260337,700,846,"t:0.0110
+ pc:700
+ cc:846"
+uniform,filtered naive,2,100,False,0.004512099898420274,290,382,"t:0.0045
+ pc:290
+ cc:382"
+uniform,naive without filtration,2,100,False,0.018925499985925853,1644,1907,"t:0.0189
+ pc:1644
+ cc:1907"
+uniform,ideal point method,2,100,True,0.007099100039340556,700,853,"t:0.0071
+ pc:700
+ cc:853"
+uniform,filtered naive,2,100,True,0.006292599951848388,558,864,"t:0.0063
+ pc:558
+ cc:864"
+uniform,naive without filtration,2,100,True,0.007241499959491193,942,1095,"t:0.0072
+ pc:942
+ cc:1095"
+uniform,ideal point method,3,100,False,0.012104400084353983,1400,2351,"t:0.0121
+ pc:1400
+ cc:2351"
+uniform,filtered naive,3,100,False,0.004509200109168887,537,789,"t:0.0045
+ pc:537
+ cc:789"
+uniform,naive without filtration,3,100,False,0.016975500038824975,2049,2479,"t:0.0170
+ pc:2049
+ cc:2479"
+uniform,ideal point method,3,100,True,0.011443500057794154,1000,1625,"t:0.0114
+ pc:1000
+ cc:1625"
+uniform,filtered naive,3,100,True,0.010696099954657257,1383,2451,"t:0.0107
+ pc:1383
+ cc:2451"
+uniform,naive without filtration,3,100,True,0.012760600075125694,1728,2262,"t:0.0128
+ pc:1728
+ cc:2262"
+uniform,ideal point method,4,100,False,0.021493299980647862,2400,4544,"t:0.0215
+ pc:2400
+ cc:4544"
+uniform,filtered naive,4,100,False,0.01683560002129525,1564,3088,"t:0.0168
+ pc:1564
+ cc:3088"
+uniform,naive without filtration,4,100,False,0.033185799955390394,4406,6819,"t:0.0332
+ pc:4406
+ cc:6819"
+uniform,ideal point method,4,100,True,0.015130999963730574,2100,3848,"t:0.0151
+ pc:2100
+ cc:3848"
+uniform,filtered naive,4,100,True,0.013652399997226894,1824,3820,"t:0.0137
+ pc:1824
+ cc:3820"
+uniform,naive without filtration,4,100,True,0.018538599950261414,2362,3360,"t:0.0185
+ pc:2362
+ cc:3360"
+uniform,ideal point method,5,100,False,0.04405820008832961,4800,9845,"t:0.0441
+ pc:4800
+ cc:9845"
+uniform,filtered naive,5,100,False,0.09870470000896603,7999,14727,"t:0.0987
+ pc:7999
+ cc:14727"
+uniform,naive without filtration,5,100,False,0.08574390003923327,7556,13147,"t:0.0857
+ pc:7556
+ cc:13147"
+uniform,ideal point method,5,100,True,0.02954340004362166,3400,6865,"t:0.0295
+ pc:3400
+ cc:6865"
+uniform,filtered naive,5,100,True,0.030303000006824732,3717,7689,"t:0.0303
+ pc:3717
+ cc:7689"
+uniform,naive without filtration,5,100,True,0.035073500010184944,3999,5985,"t:0.0351
+ pc:3999
+ cc:5985"
+uniform,ideal point method,10,100,False,0.05540289997588843,5100,12863,"t:0.0554
+ pc:5100
+ cc:12863"
+uniform,filtered naive,10,100,False,0.1561273999977857,14277,29897,"t:0.1561
+ pc:14277
+ cc:29897"
+uniform,naive without filtration,10,100,False,0.1313471000175923,9950,20712,"t:0.1313
+ pc:9950
+ cc:20712"
+uniform,ideal point method,10,100,True,0.06292820000089705,5100,11448,"t:0.0629
+ pc:5100
+ cc:11448"
+uniform,filtered naive,10,100,True,0.12720550002995878,13947,31893,"t:0.1272
+ pc:13947
+ cc:31893"
+uniform,naive without filtration,10,100,True,0.08074819995090365,9699,18672,"t:0.0807
+ pc:9699
+ cc:18672"
+uniform,ideal point method,2,1000,False,0.07266589999198914,9000,9732,"t:0.0727
+ pc:9000
+ cc:9732"
+uniform,filtered naive,2,1000,False,0.014203600003384054,1486,1696,"t:0.0142
+ pc:1486
+ cc:1696"
+uniform,naive without filtration,2,1000,False,0.331783999921754,32041,33312,"t:0.3318
+ pc:32041
+ cc:33312"
+uniform,ideal point method,2,1000,True,0.08409980009309947,7000,7477,"t:0.0841
+ pc:7000
+ cc:7477"
+uniform,filtered naive,2,1000,True,0.0229589999653399,2430,3384,"t:0.0230
+ pc:2430
+ cc:3384"
+uniform,naive without filtration,2,1000,True,0.06273500004317611,7443,7920,"t:0.0627
+ pc:7443
+ cc:7920"
+uniform,ideal point method,3,1000,False,0.16774020006414503,18000,29893,"t:0.1677
+ pc:18000
+ cc:29893"
+uniform,filtered naive,3,1000,False,0.09993070003110915,3805,6205,"t:0.0999
+ pc:3805
+ cc:6205"
+uniform,naive without filtration,3,1000,False,0.7233558000298217,55977,60630,"t:0.7234
+ pc:55977
+ cc:60630"
+uniform,ideal point method,3,1000,True,0.5681032999418676,44000,64525,"t:0.5681
+ pc:44000
+ cc:64525"
+uniform,filtered naive,3,1000,True,0.3305281000211835,17982,34928,"t:0.3305
+ pc:17982
+ cc:34928"
+uniform,naive without filtration,3,1000,True,0.6351486999774352,43089,51562,"t:0.6351
+ pc:43089
+ cc:51562"
+uniform,ideal point method,4,1000,False,0.5784754999913275,58000,104907,"t:0.5785
+ pc:58000
+ cc:104907"
+uniform,filtered naive,4,1000,False,0.14291970001067966,9351,16456,"t:0.1429
+ pc:9351
+ cc:16456"
+uniform,naive without filtration,4,1000,False,1.1219493999378756,120144,140324,"t:1.1219
+ pc:120144
+ cc:140324"
+uniform,ideal point method,4,1000,True,0.6780197999905795,74000,146008,"t:0.6780
+ pc:74000
+ cc:146008"
+uniform,filtered naive,4,1000,True,0.5888312000315636,51960,106870,"t:0.5888
+ pc:51960
+ cc:106870"
+uniform,naive without filtration,4,1000,True,1.0303497000131756,88656,116111,"t:1.0303
+ pc:88656
+ cc:116111"
+uniform,ideal point method,5,1000,False,1.4692874000174925,137000,312530,"t:1.4693
+ pc:137000
+ cc:312530"
+uniform,filtered naive,5,1000,False,0.5836236999602988,46161,88673,"t:0.5836
+ pc:46161
+ cc:88673"
+uniform,naive without filtration,5,1000,False,2.2433118999470025,210784,287205,"t:2.2433
+ pc:210784
+ cc:287205"
+uniform,ideal point method,5,1000,True,1.6045165000250563,174000,374319,"t:1.6045
+ pc:174000
+ cc:374319"
+uniform,filtered naive,5,1000,True,0.870674500009045,99084,221430,"t:0.8707
+ pc:99084
+ cc:221430"
+uniform,naive without filtration,5,1000,True,1.5880557000637054,163426,224599,"t:1.5881
+ pc:163426
+ cc:224599"
+uniform,ideal point method,10,1000,False,5.110760599956848,490000,1081569,"t:5.1108
+ pc:490000
+ cc:1081569"
+uniform,filtered naive,10,1000,False,10.137104699970223,1008913,1993072,"t:10.1371
+ pc:1008913
+ cc:1993072"
+uniform,naive without filtration,10,1000,False,8.269271700060926,841535,1588559,"t:8.2693
+ pc:841535
+ cc:1588559"
+uniform,ideal point method,10,1000,True,6.008454599999823,487000,1097169,"t:6.0085
+ pc:487000
+ cc:1097169"
+uniform,filtered naive,10,1000,True,13.614099200000055,987888,2273480,"t:13.6141
+ pc:987888
+ cc:2273480"
+uniform,naive without filtration,10,1000,True,12.764448500005528,768441,1411237,"t:12.7644
+ pc:768441
+ cc:1411237"
+normal,ideal point method,2,100,False,0.008936500060372055,600,644,"t:0.0089
+ pc:600
+ cc:644"
+normal,filtered naive,2,100,False,0.006285300012677908,292,397,"t:0.0063
+ pc:292
+ cc:397"
+normal,naive without filtration,2,100,False,0.01080669998191297,788,882,"t:0.0108
+ pc:788
+ cc:882"
+normal,ideal point method,2,100,True,0.016083900001831353,700,884,"t:0.0161
+ pc:700
+ cc:884"
+normal,filtered naive,2,100,True,0.011844300082884729,651,1019,"t:0.0118
+ pc:651
+ cc:1019"
+normal,naive without filtration,2,100,True,0.019244999974034727,1100,1284,"t:0.0192
+ pc:1100
+ cc:1284"
+normal,ideal point method,3,100,False,0.01992749993223697,1200,1714,"t:0.0199
+ pc:1200
+ cc:1714"
+normal,filtered naive,3,100,False,0.013588399975560606,666,1131,"t:0.0136
+ pc:666
+ cc:1131"
+normal,naive without filtration,3,100,False,0.05347400007303804,2531,3276,"t:0.0535
+ pc:2531
+ cc:3276"
+normal,ideal point method,3,100,True,0.027506700018420815,1700,2415,"t:0.0275
+ pc:1700
+ cc:2415"
+normal,filtered naive,3,100,True,0.01286330004222691,747,1313,"t:0.0129
+ pc:747
+ cc:1313"
+normal,naive without filtration,3,100,True,0.01609930000267923,1373,1656,"t:0.0161
+ pc:1373
+ cc:1656"
+normal,ideal point method,4,100,False,0.031596599961631,1900,3522,"t:0.0316
+ pc:1900
+ cc:3522"
+normal,filtered naive,4,100,False,0.03188419993966818,1619,2750,"t:0.0319
+ pc:1619
+ cc:2750"
+normal,naive without filtration,4,100,False,0.038986100000329316,3801,5183,"t:0.0390
+ pc:3801
+ cc:5183"
+normal,ideal point method,4,100,True,0.03217210003640503,2500,4848,"t:0.0322
+ pc:2500
+ cc:4848"
+normal,filtered naive,4,100,True,0.03131380002014339,2427,5217,"t:0.0313
+ pc:2427
+ cc:5217"
+normal,naive without filtration,4,100,True,0.04472360003273934,2976,4371,"t:0.0447
+ pc:2976
+ cc:4371"
+normal,ideal point method,5,100,False,0.06553380005061626,3600,6761,"t:0.0655
+ pc:3600
+ cc:6761"
+normal,filtered naive,5,100,False,0.07544689998030663,3866,6882,"t:0.0754
+ pc:3866
+ cc:6882"
+normal,naive without filtration,5,100,False,0.09652949997689575,5624,8779,"t:0.0965
+ pc:5624
+ cc:8779"
+normal,ideal point method,5,100,True,0.07640849996823817,4600,9439,"t:0.0764
+ pc:4600
+ cc:9439"
+normal,filtered naive,5,100,True,0.12298820004798472,7107,14869,"t:0.1230
+ pc:7107
+ cc:14869"
+normal,naive without filtration,5,100,True,0.10519579995889217,6419,10300,"t:0.1052
+ pc:6419
+ cc:10300"
+normal,ideal point method,10,100,False,0.05738250003196299,4900,10879,"t:0.0574
+ pc:4900
+ cc:10879"
+normal,filtered naive,10,100,False,0.1274124999763444,12095,23715,"t:0.1274
+ pc:12095
+ cc:23715"
+normal,naive without filtration,10,100,False,0.10848950000945479,9242,17723,"t:0.1085
+ pc:9242
+ cc:17723"
+normal,ideal point method,10,100,True,0.05517100007273257,5100,11396,"t:0.0552
+ pc:5100
+ cc:11396"
+normal,filtered naive,10,100,True,0.1732741000596434,14049,32245,"t:0.1733
+ pc:14049
+ cc:32245"
+normal,naive without filtration,10,100,True,0.11213969998061657,9545,18643,"t:0.1121
+ pc:9545
+ cc:18643"
+normal,ideal point method,2,1000,False,0.1482138999272138,11000,12188,"t:0.1482
+ pc:11000
+ cc:12188"
+normal,filtered naive,2,1000,False,0.03697480005212128,2305,2853,"t:0.0370
+ pc:2305
+ cc:2853"
+normal,naive without filtration,2,1000,False,0.404621799942106,27911,29123,"t:0.4046
+ pc:27911
+ cc:29123"
+normal,ideal point method,2,1000,True,0.2962000999832526,11000,13840,"t:0.2962
+ pc:11000
+ cc:13840"
+normal,filtered naive,2,1000,True,0.2524076000554487,9519,15199,"t:0.2524
+ pc:9519
+ cc:15199"
+normal,naive without filtration,2,1000,True,0.3099385000532493,16429,19269,"t:0.3099
+ pc:16429
+ cc:19269"
+normal,ideal point method,3,1000,False,0.6969473999924958,44000,63929,"t:0.6969
+ pc:44000
+ cc:63929"
+normal,filtered naive,3,1000,False,0.318862900021486,7989,12223,"t:0.3189
+ pc:7989
+ cc:12223"
+normal,naive without filtration,3,1000,False,0.9237830999772996,55405,61025,"t:0.9238
+ pc:55405
+ cc:61025"
+normal,ideal point method,3,1000,True,0.4328044999856502,25000,35496,"t:0.4328
+ pc:25000
+ cc:35496"
+normal,filtered naive,3,1000,True,0.08329019998200238,4362,7686,"t:0.0833
+ pc:4362
+ cc:7686"
+normal,naive without filtration,3,1000,True,0.30824790010228753,21638,23300,"t:0.3082
+ pc:21638
+ cc:23300"
+normal,ideal point method,4,1000,False,0.8713051000377163,66000,132595,"t:0.8713
+ pc:66000
+ cc:132595"
+normal,filtered naive,4,1000,False,0.1547896999400109,10315,17781,"t:0.1548
+ pc:10315
+ cc:17781"
+normal,naive without filtration,4,1000,False,2.4118765000021085,146383,180737,"t:2.4119
+ pc:146383
+ cc:180737"
+normal,ideal point method,4,1000,True,1.0336313999723643,78000,144291,"t:1.0336
+ pc:78000
+ cc:144291"
+normal,filtered naive,4,1000,True,0.3772227999288589,39858,81828,"t:0.3772
+ pc:39858
+ cc:81828"
+normal,naive without filtration,4,1000,True,0.6877090999623761,80313,101298,"t:0.6877
+ pc:80313
+ cc:101298"
+normal,ideal point method,5,1000,False,1.4889045000309125,164000,355150,"t:1.4889
+ pc:164000
+ cc:355150"
+normal,filtered naive,5,1000,False,0.5757141000358388,60052,113735,"t:0.5757
+ pc:60052
+ cc:113735"
+normal,naive without filtration,5,1000,False,2.2745851000072435,229563,313202,"t:2.2746
+ pc:229563
+ cc:313202"
+normal,ideal point method,5,1000,True,1.4868659999920055,131000,264780,"t:1.4869
+ pc:131000
+ cc:264780"
+normal,filtered naive,5,1000,True,0.6796864999923855,55935,118131,"t:0.6797
+ pc:55935
+ cc:118131"
+normal,naive without filtration,5,1000,True,0.9555033000651747,106887,137985,"t:0.9555
+ pc:106887
+ cc:137985"
+normal,ideal point method,10,1000,False,4.953460999997333,490000,1119884,"t:4.9535
+ pc:490000
+ cc:1119884"
+normal,filtered naive,10,1000,False,10.915345499990508,968562,1938832,"t:10.9153
+ pc:968562
+ cc:1938832"
+normal,naive without filtration,10,1000,False,7.381825000047684,848205,1625800,"t:7.3818
+ pc:848205
+ cc:1625800"
+normal,ideal point method,10,1000,True,4.348653799970634,483000,1114270,"t:4.3487
+ pc:483000
+ cc:1114270"
+normal,filtered naive,10,1000,True,8.538588600000367,963630,2208980,"t:8.5386
+ pc:963630
+ cc:2208980"
+normal,naive without filtration,10,1000,True,7.925758600002155,773623,1396298,"t:7.9258
+ pc:773623
+ cc:1396298"
+exponential,ideal point method,2,100,False,0.003750600037164986,400,562,"t:0.0038
+ pc:400
+ cc:562"
+exponential,filtered naive,2,100,False,0.0013251000782474875,156,182,"t:0.0013
+ pc:156
+ cc:182"
+exponential,naive without filtration,2,100,False,0.010392899974249303,1385,1535,"t:0.0104
+ pc:1385
+ cc:1535"
+exponential,ideal point method,2,100,True,0.003675700048916042,400,412,"t:0.0037
+ pc:400
+ cc:412"
+exponential,filtered naive,2,100,True,0.0016943999798968434,136,160,"t:0.0017
+ pc:136
+ cc:160"
+exponential,naive without filtration,2,100,True,0.0036445000441744924,470,482,"t:0.0036
+ pc:470
+ cc:482"
+exponential,ideal point method,3,100,False,0.006935799960047007,800,1128,"t:0.0069
+ pc:800
+ cc:1128"
+exponential,filtered naive,3,100,False,0.0019634999334812164,228,314,"t:0.0020
+ pc:228
+ cc:314"
+exponential,naive without filtration,3,100,False,0.012889800011180341,1722,1928,"t:0.0129
+ pc:1722
+ cc:1928"
+exponential,ideal point method,3,100,True,0.0144027000060305,1800,3016,"t:0.0144
+ pc:1800
+ cc:3016"
+exponential,filtered naive,3,100,True,0.01484710001386702,1794,3298,"t:0.0148
+ pc:1794
+ cc:3298"
+exponential,naive without filtration,3,100,True,0.018183199921622872,2342,3094,"t:0.0182
+ pc:2342
+ cc:3094"
+exponential,ideal point method,4,100,False,0.015375700080767274,1900,3480,"t:0.0154
+ pc:1900
+ cc:3480"
+exponential,filtered naive,4,100,False,0.010998599929735065,1326,2368,"t:0.0110
+ pc:1326
+ cc:2368"
+exponential,naive without filtration,4,100,False,0.033991800039075315,4447,6400,"t:0.0340
+ pc:4447
+ cc:6400"
+exponential,ideal point method,4,100,True,0.018944500014185905,2300,4329,"t:0.0189
+ pc:2300
+ cc:4329"
+exponential,filtered naive,4,100,True,0.016513700014911592,2068,4238,"t:0.0165
+ pc:2068
+ cc:4238"
+exponential,naive without filtration,4,100,True,0.021291499957442284,2811,3896,"t:0.0213
+ pc:2811
+ cc:3896"
+exponential,ideal point method,5,100,False,0.033380999928340316,4000,8170,"t:0.0334
+ pc:4000
+ cc:8170"
+exponential,filtered naive,5,100,False,0.045868500019423664,5866,11023,"t:0.0459
+ pc:5866
+ cc:11023"
+exponential,naive without filtration,5,100,False,0.04300079995300621,6106,10106,"t:0.0430
+ pc:6106
+ cc:10106"
+exponential,ideal point method,5,100,True,0.03074070008005947,4000,7948,"t:0.0307
+ pc:4000
+ cc:7948"
+exponential,filtered naive,5,100,True,0.0501257999567315,6246,13208,"t:0.0501
+ pc:6246
+ cc:13208"
+exponential,naive without filtration,5,100,True,0.04801550006959587,5666,9147,"t:0.0480
+ pc:5666
+ cc:9147"
+exponential,ideal point method,10,100,False,0.05147279996890575,5100,11348,"t:0.0515
+ pc:5100
+ cc:11348"
+exponential,filtered naive,10,100,False,0.11524549999739975,14303,29702,"t:0.1152
+ pc:14303
+ cc:29702"
+exponential,naive without filtration,10,100,False,0.075669200043194,9762,19922,"t:0.0757
+ pc:9762
+ cc:19922"
+exponential,ideal point method,10,100,True,0.0405693999491632,5000,11024,"t:0.0406
+ pc:5000
+ cc:11024"
+exponential,filtered naive,10,100,True,0.10082529997453094,11748,27058,":0.1008
+ pc:11748
+ cc:2705t8"
+exponential,naive without filtration,10,100,True,0.059795400011353195,8357,16012,"t:0.0598
+ pc:8357
+ cc:16012"
+exponential,ideal point method,2,1000,False,0.04308530001435429,5000,5278,"t:0.0431
+ pc:5000
+ cc:5278"
+exponential,filtered naive,2,1000,False,0.010142500046640635,1274,1398,"t:0.0101
+ pc:1274
+ cc:1398"
+exponential,naive without filtration,2,1000,False,0.25105810002423823,32823,33834,"t:0.2511
+ pc:32823
+ cc:33834"
+exponential,ideal point method,2,1000,True,0.08939799992367625,11000,11221,"t:0.0894
+ pc:11000
+ cc:11221"
+exponential,filtered naive,2,1000,True,0.015565000008791685,1662,2104,"t:0.0156
+ pc:1662
+ cc:2104"
+exponential,naive without filtration,2,1000,True,0.07572740002069622,9895,10116,"t:0.0757
+ pc:9895
+ cc:10116"
+exponential,ideal point method,3,1000,False,0.20784539997112006,27000,38901,"t:0.2078
+ pc:27000
+ cc:38901"
+exponential,filtered naive,3,1000,False,0.04571840004064143,5028,7716,"t:0.0457
+ pc:5028
+ cc:7716"
+exponential,naive without filtration,3,1000,False,0.3291706000454724,41234,45877,"t:0.3292
+ pc:41234
+ cc:45877"
+exponential,ideal point method,3,1000,True,0.19622689997777343,24000,38498,"t:0.1962
+ pc:24000
+ cc:38498"
+exponential,filtered naive,3,1000,True,0.10170659993309528,12978,24904,"t:0.1017
+ pc:12978
+ cc:24904"
+exponential,naive without filtration,3,1000,True,0.2196940000867471,29634,35597,"t:0.2197
+ pc:29634
+ cc:35597"
+exponential,ideal point method,4,1000,False,0.8082015999825671,103000,189345,"t:0.8082
+ pc:103000
+ cc:189345"
+exponential,filtered naive,4,1000,False,0.26456499996129423,30769,56015,"t:0.2646
+ pc:30769
+ cc:56015"
+exponential,naive without filtration,4,1000,False,1.1578029999509454,141449,176115,"t:1.1578
+ pc:141449
+ cc:176115"
+exponential,ideal point method,4,1000,True,0.5714658999349922,60000,108849,"t:0.5715
+ pc:60000
+ cc:108849"
+exponential,filtered naive,4,1000,True,0.3438372000819072,36354,71712,"t:0.3438
+ pc:36354
+ cc:71712"
+exponential,naive without filtration,4,1000,True,0.6051325000589713,68991,86670,"t:0.6051
+ pc:68991
+ cc:86670"
+exponential,ideal point method,5,1000,False,1.2869071000022814,140000,310011,"t:1.2869
+ pc:140000
+ cc:310011"
+exponential,filtered naive,5,1000,False,0.5061295999912545,48254,86090,"t:0.5061
+ pc:48254
+ cc:86090"
+exponential,naive without filtration,5,1000,False,1.566076899995096,179626,231450,"t:1.5661
+ pc:179626
+ cc:231450"
+exponential,ideal point method,5,1000,True,1.6666113000828773,180000,387330,"t:1.6666
+ pc:180000
+ cc:387330"
+exponential,filtered naive,5,1000,True,1.241383499931544,135585,283307,"t:1.2414
+ pc:135585
+ cc:283307"
+exponential,naive without filtration,5,1000,True,1.8414443999063224,199692,273553,"t:1.8414
+ pc:199692
+ cc:273553"
+exponential,ideal point method,10,1000,False,3.772461799904704,475000,1047619,"t:3.7725
+ pc:475000
+ cc:1047619"
+exponential,filtered naive,10,1000,False,8.998613900039345,985057,1945496,"t:8.9986
+ pc:985057
+ cc:1945496"
+exponential,naive without filtration,10,1000,False,7.952947699930519,828477,1562179,"t:7.9529
+ pc:828477
+ cc:1562179"
+exponential,ideal point method,10,1000,True,4.641772100003436,466000,996293,"t:4.6418
+ pc:466000
+ cc:996293"
+exponential,filtered naive,10,1000,True,8.65622300002724,949179,2150423,"t:8.6562
+ pc:949179
+ cc:2150423"
+exponential,naive without filtration,10,1000,True,6.343094200012274,744313,1344935,"t:6.3431
+ pc:744313
+ cc:1344935"
+poisson,ideal point method,2,100,False,0.002001499990001321,100,100,"t:0.0020
+ pc:100
+ cc:100"
+poisson,filtered naive,2,100,False,0.0012162999482825398,101,101,"t:0.0012
+ pc:101
+ cc:101"
+poisson,naive without filtration,2,100,False,0.0038725000340491533,385,412,"t:0.0039
+ pc:385
+ cc:412"
+poisson,ideal point method,2,100,True,0.0027969999937340617,200,205,"t:0.0028
+ pc:200
+ cc:205"
+poisson,filtered naive,2,100,True,0.0012738999212160707,116,127,"t:0.0013
+ pc:116
+ cc:127"
+poisson,naive without filtration,2,100,True,0.012827900005504489,881,1000,"t:0.0128
+ pc:881
+ cc:1000"
+poisson,ideal point method,3,100,False,0.005886900005862117,500,648,"t:0.0059
+ pc:500
+ cc:648"
+poisson,filtered naive,3,100,False,0.002918599988333881,278,433,"t:0.0029
+ pc:278
+ cc:433"
+poisson,naive without filtration,3,100,False,0.012630200013518333,1326,1676,"t:0.0126
+ pc:1326
+ cc:1676"
+poisson,ideal point method,3,100,True,0.0017451000167056918,100,100,"t:0.0017
+ pc:100
+ cc:100"
+poisson,filtered naive,3,100,True,0.00105189997702837,101,102,"t:0.0011
+ pc:101
+ cc:102"
+poisson,naive without filtration,3,100,True,0.002926000044681132,296,313,"t:0.0029
+ pc:296
+ cc:313"
+poisson,ideal point method,4,100,False,0.00850590004120022,800,1510,"t:0.0085
+ pc:800
+ cc:1510"
+poisson,filtered naive,4,100,False,0.0034847999922931194,326,592,"t:0.0035
+ pc:326
+ cc:592"
+poisson,naive without filtration,4,100,False,0.018652800004929304,1895,2831,"t:0.0187
+ pc:1895
+ cc:2831"
+poisson,ideal point method,4,100,True,0.007559399935416877,700,1306,"t:0.0076
+ pc:700
+ cc:1306"
+poisson,filtered naive,4,100,True,0.0031789999920874834,305,610,"t:0.0032
+ pc:305
+ cc:610"
+poisson,naive without filtration,4,100,True,0.015323700034059584,1586,2160,"t:0.0153
+ pc:1586
+ cc:2160"
+poisson,ideal point method,5,100,False,0.009370299987494946,800,1405,"t:0.0094
+ pc:800
+ cc:1405"
+poisson,filtered naive,5,100,False,0.0055828000186011195,559,1239,"t:0.0056
+ pc:559
+ cc:1239"
+poisson,naive without filtration,5,100,False,0.020035100053064525,1951,3028,"t:0.0200
+ pc:1951
+ cc:3028"
+poisson,ideal point method,5,100,True,0.013724599964916706,1400,3332,"t:0.0137
+ pc:1400
+ cc:3332"
+poisson,filtered naive,5,100,True,0.012711700052022934,1247,2957,"t:0.0127
+ pc:1247
+ cc:2957"
+poisson,naive without filtration,5,100,True,0.028449200093746185,2578,4219,"t:0.0284
+ pc:2578
+ cc:4219"
+poisson,ideal point method,10,100,False,0.038608299917541444,4500,12423,"t:0.0386
+ pc:4500
+ cc:12423"
+poisson,filtered naive,10,100,False,0.07228459999896586,8653,21071,"t:0.0723
+ pc:8653
+ cc:21071"
+poisson,naive without filtration,10,100,False,0.11012600001413375,8410,18967,"t:0.1101
+ pc:8410
+ cc:18967"
+poisson,ideal point method,10,100,True,0.046920199994929135,4900,13183,"t:0.0469
+ pc:4900
+ cc:13183"
+poisson,filtered naive,10,100,True,0.10357359994668514,12662,34203,"t:0.1036
+ pc:12662
+ cc:34203"
+poisson,naive without filtration,10,100,True,0.08531150000635535,9462,21495,"t:0.0853
+ pc:9462
+ cc:21495"
+poisson,ideal point method,2,1000,False,0.020824099890887737,1000,1000,"t:0.0208
+ pc:1000
+ cc:1000"
+poisson,filtered naive,2,1000,False,0.010041599976830184,1006,1008,"t:0.0100
+ pc:1006
+ cc:1008"
+poisson,naive without filtration,2,1000,False,0.11337889998685569,13129,14499,"t:0.1134
+ pc:13129
+ cc:14499"
+poisson,ideal point method,2,1000,True,0.018006599973887205,1000,1000,"t:0.0180
+ pc:1000
+ cc:1000"
+poisson,filtered naive,2,1000,True,0.00911480002105236,1002,1004,"t:0.0091
+ pc:1002
+ cc:1004"
+poisson,naive without filtration,2,1000,True,0.1785020000534132,21440,23051,"t:0.1785
+ pc:21440
+ cc:23051"
+poisson,ideal point method,3,1000,False,0.018029200029559433,1000,1000,"t:0.0180
+ pc:1000
+ cc:1000"
+poisson,filtered naive,3,1000,False,0.013247099937871099,1288,1479,"t:0.0132
+ pc:1288
+ cc:1479"
+poisson,naive without filtration,3,1000,False,0.1679028000216931,18299,21385,"t:0.1679
+ pc:18299
+ cc:21385"
+poisson,ideal point method,3,1000,True,0.02032620005775243,1000,1000,"t:0.0203
+ pc:1000
+ cc:1000"
+poisson,filtered naive,3,1000,True,0.010192600078880787,1010,1025,"t:0.0102
+ pc:1010
+ cc:1025"
+poisson,naive without filtration,3,1000,True,0.07149560004472733,7900,8750,"t:0.0715
+ pc:7900
+ cc:8750"
+poisson,ideal point method,4,1000,False,0.06797760003246367,8000,14499,"t:0.0680
+ pc:8000
+ cc:14499"
+poisson,filtered naive,4,1000,False,0.01851570000872016,2123,3400,"t:0.0185
+ pc:2123
+ cc:3400"
+poisson,naive without filtration,4,1000,False,0.3128012000815943,32732,41927,"t:0.3128
+ pc:32732
+ cc:41927"
+poisson,ideal point method,4,1000,True,0.015194199979305267,1000,1000,"t:0.0152
+ pc:1000
+ cc:1000"
+poisson,filtered naive,4,1000,True,0.010305000003427267,1024,1061,"t:0.0103
+ pc:1024
+ cc:1061"
+poisson,naive without filtration,4,1000,True,0.056638200068846345,6946,7833,"t:0.0566
+ pc:6946
+ cc:7833"
+poisson,ideal point method,5,1000,False,0.1040032000746578,10000,18620,"t:0.1040
+ pc:10000
+ cc:18620"
+poisson,filtered naive,5,1000,False,0.02608100010547787,2225,3672,"t:0.0261
+ pc:2225
+ cc:3672"
+poisson,naive without filtration,5,1000,False,0.41961490001995116,50262,64134,"t:0.4196
+ pc:50262
+ cc:64134"
+poisson,ideal point method,5,1000,True,0.1714824999216944,20000,39680,"t:0.1715
+ pc:20000
+ cc:39680"
+poisson,filtered naive,5,1000,True,0.050606400007382035,5463,12631,"t:0.0506
+ pc:5463
+ cc:12631"
+poisson,naive without filtration,5,1000,True,0.24599520000629127,24586,33061,"t:0.2460
+ pc:24586
+ cc:33061"
+poisson,ideal point method,10,1000,False,2.9147397000342607,335000,958428,"t:2.9147
+ pc:335000
+ cc:958428"
+poisson,filtered naive,10,1000,False,2.4882145998999476,293764,737920,"t:2.4882
+ pc:293764
+ cc:737920"
+poisson,naive without filtration,10,1000,False,4.347651700023562,511424,1068763,"t:4.3477
+ pc:511424
+ cc:1068763"
+poisson,ideal point method,10,1000,True,2.8191387000260875,317000,937519,"t:2.8191
+ pc:317000
+ cc:937519"
+poisson,filtered naive,10,1000,True,2.8063305999385193,305334,845433,"t:2.8063
+ pc:305334
+ cc:845433"
+poisson,naive without filtration,10,1000,True,3.4263832999859005,398736,782971,"t:3.4264
+ pc:398736
+ cc:782971"

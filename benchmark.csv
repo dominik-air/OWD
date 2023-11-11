@@ -1,0 +1,59 @@
+distribution,algorithm,dimensionality,cardinality,sorted,times,comparison_point_counter,comparison_coordinates_counter
+uniform,ideal point method,2,100,False,0.006333945991937071,538,634
+uniform,filtered naive,2,100,False,0.0023582040052860975,220,279
+uniform,naive without filtration,2,100,False,0.012002487995196133,1273,1408
+uniform,ideal point method,2,100,True,0.006692648010794073,524,619
+uniform,filtered naive,2,100,True,0.0036781759955920278,386,578
+uniform,naive without filtration,2,100,True,0.0063909259997308255,705,800
+uniform,ideal point method,3,100,False,0.017257523995358497,1386,2162
+uniform,filtered naive,3,100,False,0.007155134002678096,666,1073
+uniform,naive without filtration,3,100,False,0.02393262799596414,3069,3069
+uniform,ideal point method,3,100,True,0.014969697995111346,1384,2135
+uniform,filtered naive,3,100,True,0.0109491639980115,1014,1844
+uniform,naive without filtration,3,100,True,0.014609595998190344,1548,1963
+uniform,ideal point method,4,100,False,0.05243682600324973,2724,5096
+uniform,filtered naive,4,100,False,0.0570496440003626,1987,3534
+uniform,naive without filtration,4,100,False,0.11391914001200348,4107,5980
+uniform,ideal point method,4,100,True,0.07308390200138092,2696,5015
+uniform,filtered naive,4,100,True,0.07109197399113328,2608,5287
+uniform,naive without filtration,4,100,True,0.08142231399891899,3129,4468
+uniform,ideal point method,5,100,False,0.09753441400593146,3820,7803
+uniform,filtered naive,5,100,False,0.10586971999611705,3905,7293
+uniform,naive without filtration,5,100,False,0.15434775599744172,5665,9108
+uniform,ideal point method,5,100,True,0.043424441993702205,3856,7847
+uniform,filtered naive,5,100,True,0.052242033996153625,4572,9792
+uniform,naive without filtration,5,100,True,0.08863112800521776,4636,7246
+uniform,ideal point method,10,100,False,0.13158248200081288,5088,11406
+uniform,filtered naive,10,100,False,0.3075270039937459,13775,27352
+uniform,naive without filtration,10,100,False,0.09881231600884348,9640,18993
+uniform,ideal point method,10,100,True,0.055781843992881476,5076,11426
+uniform,filtered naive,10,100,True,0.13271824801107868,13697,31711
+uniform,naive without filtration,10,100,True,0.08861993600148707,9476,18484
+uniform,ideal point method,2,1000,False,0.09978633199352771,7760,8865
+uniform,filtered naive,2,1000,False,0.02021478001959622,1512,1755
+uniform,naive without filtration,2,1000,False,0.4784728560177609,24336,25105
+uniform,ideal point method,2,1000,True,0.21669388799462466,7360,8401
+uniform,filtered naive,2,1000,True,0.11367063599638641,4122,6204
+uniform,naive without filtration,2,1000,True,0.14932403598446398,9469,10511
+uniform,ideal point method,3,1000,False,0.83527968398761,33200,49386
+uniform,filtered naive,3,1000,False,0.17091740800999106,5814,9278
+uniform,naive without filtration,3,1000,False,1.4078554679919035,67050,74829
+uniform,ideal point method,3,1000,True,0.6317870279960335,29160,44012
+uniform,filtered naive,3,1000,True,0.11685151999816298,12603,23183
+uniform,naive without filtration,3,1000,True,0.2793739239871502,30607,35897
+uniform,ideal point method,4,1000,False,1.769637167993933,75080,140665
+uniform,filtered naive,4,1000,False,0.4065894319862127,18148,32653
+uniform,naive without filtration,4,1000,False,1.2472949920035898,122202,148631
+uniform,ideal point method,4,1000,True,1.0629642000049353,81640,153645
+uniform,filtered naive,4,1000,True,0.5735946400137618,40067,82195
+uniform,naive without filtration,4,1000,True,0.8605969720194117,80574,101637
+uniform,ideal point method,5,1000,False,1.7239261999959126,157760,334528
+uniform,filtered naive,5,1000,False,0.705633804006502,58517,109889
+uniform,naive without filtration,5,1000,False,6.102239299993962,229907,311567
+uniform,ideal point method,5,1000,True,4.44877580801025,159720,337791
+uniform,filtered naive,5,1000,True,2.560181695991196,96814,208729
+uniform,naive without filtration,5,1000,True,4.150368799995631,155827,211785
+uniform,ideal point method,10,1000,False,13.172407924006693,485840,1103220
+uniform,filtered naive,10,1000,False,12.600659819990396,922071,1823060
+uniform,naive without filtration,10,1000,False,7.977986760013737,807011,1518002
+uniform,ideal point method,10,1000,True,7.861338279996999,486920,1099180
