@@ -1,5 +1,6 @@
 from .point import Point
-from numpy import zeros_like, norm
+from numpy import zeros_like
+from numpy.linalg import norm
 
 
 
