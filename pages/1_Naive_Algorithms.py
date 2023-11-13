@@ -1,30 +1,13 @@
 import streamlit as st
 from app.components.model import Model
 from app.components.criteria_editor import CriteriaEditorView, CriteriaPresenter
-from app.components.dataset_display import (
-    DataTableView,
-    DataTablePresenter,
-    build_data_table_view_df,
-)
+from app.components.dataset_display import DataTableView, DataTablePresenter
 from app.components.dataset_generator import (
     DatasetGeneratorView,
     DatasetGeneratorPresenter,
 )
-from app.components.dataset_loader import (
-    DatasetLoaderView,
-    DatasetLoaderPresenter,
-    CSVDatasetLoader,
-)
-from app.components.algorithm_runner import (
-    AlgorithmRunnerView,
-    AlgorithmRunnerPresenter,
-)
-from app.algorithms.interface import NAIVE_ALGORITHMS
-
-st.set_page_config(
-    page_title="Optymalizacja wielokryterialna - Algorytmy naiwne", layout="wide"
-)
-st.title("Algorytmy naiwne")
+from app.components.dataset_loader import DatasetLoaderView, DatasetLoaderPresenter
+from app.components.algorithm_runner import AlgorithmRunnerView, AlgorithmRunnerPresenter
 
 # models
 if Model.streamlit_indentifier in st.session_state:
@@ -43,26 +26,20 @@ with right:
 algorithm_runner_placeholder = st.empty()
 
 # views
-dataset_loader_view = DatasetLoaderView("Moduł ładujący zbiór danych")
-criteria_view = CriteriaEditorView("Edytor kryteriów")
-dataset_generator_view = DatasetGeneratorView("Generator zbioru danych")
-datatable_view = DataTableView("Podgląd zbioru danych")
-algorithm_runner_view = AlgorithmRunnerView("Akcje")
+dataset_loader_view = DatasetLoaderView()
+criteria_view = CriteriaEditorView()
+dataset_generator_view = DatasetGeneratorView()
+datatable_view = DataTableView()
+algorithm_runner_view = AlgorithmRunnerView()
 
 # presenters
 with dataset_loader_placeholder.container():
-    DatasetLoaderPresenter(
-        model=model, view=dataset_loader_view, loader=CSVDatasetLoader()
-    )
+    DatasetLoaderPresenter(model=model, view=dataset_loader_view)
 with criteria_editor_placeholder.container():
     CriteriaPresenter(model=model, view=criteria_view)
 with dataset_generator_placeholder.container():
     DatasetGeneratorPresenter(model=model, view=dataset_generator_view)
 with datatable_placeholder.container():
-    DataTablePresenter(
-        model=model, view=datatable_view, build_df=build_data_table_view_df
-    )
+    DataTablePresenter(model=model, view=datatable_view)
 with algorithm_runner_placeholder.container():
-    AlgorithmRunnerPresenter(
-        model=model, view=algorithm_runner_view, algorithms=NAIVE_ALGORITHMS
-    )
+    AlgorithmRunnerPresenter(model=model, view=algorithm_runner_view)
