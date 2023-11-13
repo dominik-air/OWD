@@ -2,7 +2,7 @@
 
 ### Running the app:
 
-```streamlit run main.py```
+```streamlit run Homepage.py```
 
 ### Dataset source
 

@@ -9,10 +9,6 @@ from app.components.dataset_generator import (
 from app.components.dataset_loader import DatasetLoaderView, DatasetLoaderPresenter
 from app.components.algorithm_runner import AlgorithmRunnerView, AlgorithmRunnerPresenter
 
-st.set_page_config(page_title="Optymalizacja wielokryterialna", layout="wide")
-st.title("Optymalizacja wielokryterialna")
-st.text("Autorzy:\n Monika Sukiennik\n Igor Ratajczyk\n Dominik Żurek")
-
 # models
 if Model.streamlit_indentifier in st.session_state:
     model = st.session_state[Model.streamlit_indentifier]
