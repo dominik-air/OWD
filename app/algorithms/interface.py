@@ -9,10 +9,18 @@ from numpy import mean, std
 OWDAlgorithm = Callable[[list[Point]], list[Point]]
 distribution_callable = Callable[[int, int], list[Point]]
 
-ALGORITHMS: dict[str, OWDAlgorithm] = {
+NAIVE_ALGORITHMS: dict[str, OWDAlgorithm] = {
     "ideal point method": ideal_point_method,
     "filtered naive": naive_with_filtering,
     "naive without filtration": naive_without_filtering
+}
+
+
+RANKING_ALGORITHMS: dict[str, OWDAlgorithm] = {
+    "TOPSIS": lambda: exec('raise NotImplementedError'),
+    "RSM": lambda: exec('raise NotImplementedError'),
+    "UTA Star": lambda: exec('raise NotImplementedError'),
+    "SP-CS": lambda: exec('raise NotImplementedError')
 }
 
 
@@ -42,7 +50,7 @@ class BenchmarkAnalyzer:
 
             start = time.perf_counter()
 
-            ALGORITHMS[self.algorithm](self.dataset)
+            NAIVE_ALGORITHMS[self.algorithm](self.dataset)
 
             self.times.append(time.perf_counter() - start)
             self.comparison_point_counter.append(Point.get_global_point_counter())
