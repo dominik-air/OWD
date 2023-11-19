@@ -63,4 +63,6 @@ with datatable_placeholder.container():
         model=model, view=datatable_view, build_df=build_data_table_view_df
     )
 with algorithm_runner_placeholder.container():
-    AlgorithmRunnerPresenter(model=model, view=algorithm_runner_view, algorithms=NAIVE_ALGORITHMS)
+    AlgorithmRunnerPresenter(
+        model=model, view=algorithm_runner_view, algorithms=NAIVE_ALGORITHMS
+    )

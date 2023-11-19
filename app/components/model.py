@@ -15,9 +15,9 @@ class Model:
         self._non_dominated_points: list[Point] = []
 
         # fields used by ranking methods
-        self._alternative_names: list[str] = []
-        self._class_names: list[str] = []
-        self._class_data: np.ndarray = np.array([])
+        self._alternative_names: list[str] = [f"alt{i}" for i in range(20)]
+        self._class_names: list[str] = ["A1", "A2", "A1"]
+        self._class_data: np.ndarray = np.random.normal(0, 1, size=(3, 2))
 
         if self.streamlit_indentifier not in st.session_state:
             st.session_state[self.streamlit_indentifier] = self
