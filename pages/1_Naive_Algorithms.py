@@ -6,8 +6,11 @@ from app.components.dataset_generator import (
     DatasetGeneratorView,
     DatasetGeneratorPresenter,
 )
-from app.components.dataset_loader import DatasetLoaderView, DatasetLoaderPresenter
+from app.components.dataset_loader import DatasetLoaderView, DatasetLoaderPresenter, CSVDatasetLoader
 from app.components.algorithm_runner import AlgorithmRunnerView, AlgorithmRunnerPresenter
+
+st.set_page_config(page_title="Optymalizacja wielokryterialna - Algorytmy naiwne", layout="wide")
+st.title("Algorytmy naiwne")
 
 # models
 if Model.streamlit_indentifier in st.session_state:
@@ -34,7 +37,7 @@ algorithm_runner_view = AlgorithmRunnerView()
 
 # presenters
 with dataset_loader_placeholder.container():
-    DatasetLoaderPresenter(model=model, view=dataset_loader_view)
+    DatasetLoaderPresenter(model=model, view=dataset_loader_view, loader=CSVDatasetLoader())
 with criteria_editor_placeholder.container():
     CriteriaPresenter(model=model, view=criteria_view)
 with dataset_generator_placeholder.container():
