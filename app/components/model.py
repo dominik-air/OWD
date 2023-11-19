@@ -14,6 +14,11 @@ class Model:
         self._dominated_points: list[Point] = []
         self._non_dominated_points: list[Point] = []
 
+        # fields used by ranking methods
+        self._alternative_names: list[str] = []
+        self._class_names: list[str] = []
+        self._class_data: np.ndarray = np.array([])
+
         if self.streamlit_indentifier not in st.session_state:
             st.session_state[self.streamlit_indentifier] = self
 
@@ -56,6 +61,33 @@ class Model:
     def non_dominated_points(self) -> list[Point]:
         return self._non_dominated_points
 
+    @property
+    def class_names(self) -> list[str]:
+        return self._class_names
+
+    @class_names.setter
+    def class_names(self, class_names: list[str]) -> None:
+        self._class_names = class_names
+        self.checkpoint()
+
+    @property
+    def class_data(self) -> np.ndarray:
+        return self._class_data
+
+    @class_data.setter
+    def class_data(self, class_data: np.ndarray) -> None:
+        self._class_data = class_data
+        self.checkpoint()
+
+    @property
+    def alternative_names(self) -> list[str]:
+        return self._alternative_names
+
+    @alternative_names.setter
+    def alternative_names(self, alternative_names: list[str]) -> None:
+        self._alternative_names = alternative_names
+        self.checkpoint()
+
     def process_points_with_algorithm(self, algorithm: OWDAlgorithm) -> None:
         points = self.points
         # flip the signs for optimisation
@@ -68,7 +100,6 @@ class Model:
         self._non_dominated_points = non_dominated
         self._dominated_points = self._filter_non_dominated(non_dominated)
         self.checkpoint()
-    
 
     def _filter_non_dominated(self, non_dominated: list[Point]) -> list[Point]:
         dominated = []
