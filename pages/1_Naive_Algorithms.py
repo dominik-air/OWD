@@ -42,11 +42,11 @@ with right:
 algorithm_runner_placeholder = st.empty()
 
 # views
-dataset_loader_view = DatasetLoaderView()
-criteria_view = CriteriaEditorView()
-dataset_generator_view = DatasetGeneratorView()
+dataset_loader_view = DatasetLoaderView("Moduł ładujący zbiór danych")
+criteria_view = CriteriaEditorView("Edytor kryteriów")
+dataset_generator_view = DatasetGeneratorView("Generator zbioru danych")
 datatable_view = DataTableView("Podgląd zbioru danych")
-algorithm_runner_view = AlgorithmRunnerView()
+algorithm_runner_view = AlgorithmRunnerView("Akcje")
 
 # presenters
 with dataset_loader_placeholder.container():

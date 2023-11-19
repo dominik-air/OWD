@@ -72,10 +72,13 @@ class CriteriaPresenter:
 
 
 class CriteriaEditorView:
-    streamlit_indentifier = "criteria_editor"
+
+    def __init__(self, title: str) -> None:
+        self.title = title
+        self.streamlit_indentifier = "criteria_editor"
 
     def init_ui(self, presenter: CriteriaPresenter) -> None:
-        st.subheader("Edytor kryteriów", divider=True)
+        st.subheader(self.title, divider=True)
 
         if st.button("Dodaj kolumnę"):
             presenter.add_column()

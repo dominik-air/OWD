@@ -103,6 +103,10 @@ class DatasetLoaderPresenter:
 
 
 class DatasetLoaderView:
+
+    def __init__(self, title: str) -> None:
+        self.title = title
+
     def init_ui(self, presenter: DatasetLoaderPresenter) -> None:
         st.subheader("Moduł ładujący zbiór danych", divider=True)
         uploaded_file = st.file_uploader("Dodaj plik z danymi")

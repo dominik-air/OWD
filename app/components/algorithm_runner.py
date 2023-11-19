@@ -215,8 +215,12 @@ class AlgorithmRunnerPresenter:
 
 
 class AlgorithmRunnerView:
+
+    def __init__(self, title: str) -> None:
+        self.title = title
+
     def init_ui(self, presenter: AlgorithmRunnerPresenter) -> None:
-        st.subheader("Akcje", divider=True)
+        st.subheader(self.title, divider=True)
 
         left, right = st.columns([2, 2])
 
