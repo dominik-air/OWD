@@ -1,4 +1,3 @@
-import os
 from typing import Protocol, TextIO
 from dataclasses import dataclass, field
 import streamlit as st
