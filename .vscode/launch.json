@@ -12,7 +12,7 @@
     "module": "streamlit",
     "args": [
          "run",
-         "main.py",
+         "Homepage.py",
          "--server.port",
          "8912"
     ]

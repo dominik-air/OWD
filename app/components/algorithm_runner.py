@@ -4,7 +4,7 @@ import streamlit as st
 from matplotlib.figure import Figure
 import plotly.graph_objects as go
 from numpy import mean
-from ..algorithms.interface import ALGORITHMS, Point, OWDAlgorithm, BenchmarkAnalyzer
+from ..algorithms.interface import Point, OWDAlgorithm, BenchmarkAnalyzer
 
 
 class Model:
@@ -37,9 +37,10 @@ class AlgorithmRunnerPresenter:
     cached_json = "cached_json"
     cached_table = "cached_table"
 
-    def __init__(self, model: Model, view: "AlgorithmRunnerView") -> None:
+    def __init__(self, model: Model, view: "AlgorithmRunnerView", algorithms: dict[str, OWDAlgorithm]) -> None:
         self.model = model
         self.view = view
+        self.supported_algorithms = algorithms
         self.view.init_ui(self)
 
     def run_algorithm(self) -> None:
@@ -67,7 +68,7 @@ class AlgorithmRunnerPresenter:
         st.session_state[self.cached_json] = json
 
     def execute_the_algorithm(self, algorithm: str) -> None:
-        chosen_algorithm = ALGORITHMS[algorithm]
+        chosen_algorithm = self.supported_algorithms[algorithm]
         self.model.process_points_with_algorithm(chosen_algorithm)
         self.clear_cache()
 
@@ -89,7 +90,7 @@ class AlgorithmRunnerPresenter:
         self, dimensionality: int, dataset: list[Point], repeats: int
     ) -> None:
         table_data = []
-        for algorithm_name in ALGORITHMS.keys():
+        for algorithm_name in self.supported_algorithms.keys():
             benchmark = BenchmarkAnalyzer(algorithm_name, dimensionality, dataset)
             benchmark_result = benchmark.run_algorithm(repeats)
             data = {
@@ -215,14 +216,18 @@ class AlgorithmRunnerPresenter:
 
 
 class AlgorithmRunnerView:
+
+    def __init__(self, title: str) -> None:
+        self.title = title
+
     def init_ui(self, presenter: AlgorithmRunnerPresenter) -> None:
-        st.subheader("Akcje", divider=True)
+        st.subheader(self.title, divider=True)
 
         left, right = st.columns([2, 2])
 
         with left:
             self.selected_algorithm = st.selectbox(
-                "Algorytm OWD", options=list(ALGORITHMS.keys())
+                "Algorytm OWD", options=list(presenter.supported_algorithms.keys())
             )
             st.button("Rozwiąż", on_click=presenter.run_algorithm)
         with right:

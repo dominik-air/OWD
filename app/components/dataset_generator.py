@@ -54,7 +54,8 @@ class DatasetGeneratorPresenter:
 
 
 class DatasetGeneratorView:
-    def __init__(self) -> None:
+    def __init__(self, title: str) -> None:
+        self.title = title
         self.distribution_to_parameters = {
             "Gaussa": self._display_gauss_parameters,
             "Poissona": self._display_poisson_parameters,
@@ -65,7 +66,7 @@ class DatasetGeneratorView:
         self.generator_params = {}
 
     def init_ui(self, presenter: DatasetGeneratorPresenter) -> None:
-        st.subheader("Generator zbioru danych", divider=True)
+        st.subheader(self.title, divider=True)
 
         left, right = st.columns([3, 1])
         with left:
