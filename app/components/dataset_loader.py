@@ -82,10 +82,23 @@ class ExcelDatasetLoader:
     classes: pd.DataFrame = field(init=False, default_factory=pd.DataFrame)
 
     def read(self, file: TextIO) -> None:
-        raise NotImplementedError
+        self.alternatives = pd.read_excel(file, sheet_name=0, engine="openpyxl")
+        self.classes = pd.read_excel(file, sheet_name=1, engine="openpyxl")
 
     def populate_model(self, model: Model) -> None:
-        raise NotImplementedError
+        data = self.alternatives.iloc[:, 2:].values
+        labels = self.alternatives.columns.to_list()[2:]
+        directions = ["Min"] * len(labels)
+        alt_names = self.alternatives.iloc[:, 1].values.tolist()
+        class_data = self.classes.iloc[:, 1:].values
+        class_names = self.classes.iloc[:, 0].values.tolist()
+
+        model.data = data
+        model.directions = directions
+        model.labels = labels
+        model.alternative_names = alt_names
+        model.class_data = class_data
+        model.class_names = class_names
 
 
 class DatasetLoaderPresenter:
