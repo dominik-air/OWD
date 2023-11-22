@@ -56,16 +56,24 @@ class Model(Protocol):
 
 
 class DatasetLoaderStrategy(Protocol):
+    @property
+    def help(self) -> str:
+        """Returns information about expected filetype."""
+
     def read(self, file: TextIO) -> None:
-        ...
+        """Reads file into internal data structures."""
 
     def populate_model(self, model: Model) -> None:
-        ...
+        """Saves read data into the model."""
 
 
 @dataclass
 class CSVDatasetLoader:
     datapoints: pd.DataFrame = field(init=False, default_factory=pd.DataFrame)
+
+    def help(self) -> str:
+        with open("help/CSVLoader.md", encoding="utf-8") as md:
+            return "".join(md.readlines())
 
     def read(self, file: TextIO) -> None:
         self.datapoints = pd.read_csv(file, index_col=0)
@@ -80,6 +88,10 @@ class CSVDatasetLoader:
 class ExcelDatasetLoader:
     alternatives: pd.DataFrame = field(init=False, default_factory=pd.DataFrame)
     classes: pd.DataFrame = field(init=False, default_factory=pd.DataFrame)
+
+    def help(self) -> str:
+        with open("help/XLSXLoader.md", encoding="utf-8") as md:
+            return "".join(md.readlines())
 
     def read(self, file: TextIO) -> None:
         self.alternatives = pd.read_excel(file, sheet_name=0, engine="openpyxl")
@@ -116,13 +128,14 @@ class DatasetLoaderPresenter:
 
 
 class DatasetLoaderView:
-
     def __init__(self, title: str) -> None:
         self.title = title
 
     def init_ui(self, presenter: DatasetLoaderPresenter) -> None:
         st.subheader("Moduł ładujący zbiór danych", divider=True)
-        uploaded_file = st.file_uploader("Dodaj plik z danymi")
+        uploaded_file = st.file_uploader(
+            "Dodaj plik z danymi", help=presenter.loader.help()
+        )
         if (
             uploaded_file is not None
             and self.get_current_uploaded_file() != uploaded_file.name
