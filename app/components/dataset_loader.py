@@ -56,16 +56,24 @@ class Model(Protocol):
 
 
 class DatasetLoaderStrategy(Protocol):
+    @property
+    def help(self) -> str:
+        """Returns information about expected filetype."""
+
     def read(self, file: TextIO) -> None:
-        ...
+        """Reads file into internal data structures."""
 
     def populate_model(self, model: Model) -> None:
-        ...
+        """Saves read data into the model."""
 
 
 @dataclass
 class CSVDatasetLoader:
     datapoints: pd.DataFrame = field(init=False, default_factory=pd.DataFrame)
+
+    def help(self) -> str:
+        with open("help/CSVLoader.md", encoding="utf-8") as md:
+            return "".join(md.readlines())
 
     def read(self, file: TextIO) -> None:
         self.datapoints = pd.read_csv(file, index_col=0)
@@ -81,11 +89,28 @@ class ExcelDatasetLoader:
     alternatives: pd.DataFrame = field(init=False, default_factory=pd.DataFrame)
     classes: pd.DataFrame = field(init=False, default_factory=pd.DataFrame)
 
+    def help(self) -> str:
+        with open("help/XLSXLoader.md", encoding="utf-8") as md:
+            return "".join(md.readlines())
+
     def read(self, file: TextIO) -> None:
-        raise NotImplementedError
+        self.alternatives = pd.read_excel(file, sheet_name=0, engine="openpyxl")
+        self.classes = pd.read_excel(file, sheet_name=1, engine="openpyxl")
 
     def populate_model(self, model: Model) -> None:
-        raise NotImplementedError
+        data = self.alternatives.iloc[:, 2:].values
+        labels = self.alternatives.columns.to_list()[2:]
+        directions = ["Min"] * len(labels)
+        alt_names = self.alternatives.iloc[:, 1].values.tolist()
+        class_data = self.classes.iloc[:, 1:].values
+        class_names = self.classes.iloc[:, 0].values.tolist()
+
+        model.data = data
+        model.directions = directions
+        model.labels = labels
+        model.alternative_names = alt_names
+        model.class_data = class_data
+        model.class_names = class_names
 
 
 class DatasetLoaderPresenter:
@@ -103,13 +128,14 @@ class DatasetLoaderPresenter:
 
 
 class DatasetLoaderView:
-
     def __init__(self, title: str) -> None:
         self.title = title
 
     def init_ui(self, presenter: DatasetLoaderPresenter) -> None:
         st.subheader("Moduł ładujący zbiór danych", divider=True)
-        uploaded_file = st.file_uploader("Dodaj plik z danymi")
+        uploaded_file = st.file_uploader(
+            "Dodaj plik z danymi", help=presenter.loader.help()
+        )
         if (
             uploaded_file is not None
             and self.get_current_uploaded_file() != uploaded_file.name

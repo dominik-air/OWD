@@ -72,7 +72,6 @@ class CriteriaPresenter:
 
 
 class CriteriaEditorView:
-
     def __init__(self, title: str) -> None:
         self.title = title
         self.streamlit_indentifier = "criteria_editor"

@@ -3,7 +3,9 @@ from numpy import ones, ndarray
 from .point import Point
 
 
-def naive_without_filtering(data: List[Point], ) -> List[Point]:
+def naive_without_filtering(
+    data: List[Point],
+) -> List[Point]:
     n: int = len(data)
     active: ndarray = ones(n, dtype=bool)
     non_dominated_results: List[Any] = []
@@ -11,7 +13,7 @@ def naive_without_filtering(data: List[Point], ) -> List[Point]:
         if not active[i] and y not in non_dominated_results:
             continue
         candidate = y
-        for j, x in enumerate(data[i + 1:], i + 1):
+        for j, x in enumerate(data[i + 1 :], i + 1):
             if not active[j]:
                 continue
             if candidate <= x:

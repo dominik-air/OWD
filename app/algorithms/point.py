@@ -1,8 +1,10 @@
 from typing import Iterable
 import numpy as np
 
+
 class Point:
     """A point in a multi-dimensional space."""
+
     global_point_counter: int = 0
     global_coordinate_counter: int = 0
 
@@ -12,7 +14,7 @@ class Point:
 
     def __neg__(self) -> "Point":
         return Point(-self.x)
-    
+
     def __str__(self) -> str:
         return f"({self.x})"
 
@@ -40,7 +42,7 @@ class Point:
     def to_numpy(self) -> np.ndarray:
         """Converts the point to a numpy array."""
         return self.x
-    
+
     @classmethod
     def reset_counter(cls) -> None:
         cls.global_point_counter = 0
@@ -49,23 +51,29 @@ class Point:
     @classmethod
     def get_global_point_counter(cls) -> int:
         return cls.global_point_counter
-    
+
     @classmethod
     def get_global_coordinate_counter(cls) -> int:
         return cls.global_coordinate_counter
 
     def adjust_signs_for_optimization(self, directions: list[str]) -> None:
         if len(directions) != self.dim:
-            raise ValueError("Length of directions must match the dimensionality of the point.")
+            raise ValueError(
+                "Length of directions must match the dimensionality of the point."
+            )
 
         for i, direction in enumerate(directions):
-            if direction == 'Min':
+            if direction == "Min":
                 self.x[i] = self.x[i]
-            elif direction == 'Max':
+            elif direction == "Max":
                 self.x[i] = -self.x[i]
             else:
-                raise ValueError(f"Invalid optimization direction '{direction}' at index {i}; expected 'Min' or 'Max'.")
+                raise ValueError(
+                    f"Invalid optimization direction '{direction}' at index {i}; expected 'Min' or 'Max'."
+                )
 
 
-def create_points_from_datapoints(datapoints: Iterable[tuple[int | float]]) -> list[Point]:
+def create_points_from_datapoints(
+    datapoints: Iterable[tuple[int | float]],
+) -> list[Point]:
     return [Point(np.array(dp)) for dp in datapoints]

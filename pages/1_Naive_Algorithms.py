@@ -15,11 +15,10 @@ from app.components.dataset_loader import (
     DatasetLoaderPresenter,
     CSVDatasetLoader,
 )
-from app.components.algorithm_runner import (
-    AlgorithmRunnerView,
-    AlgorithmRunnerPresenter,
+from app.components.naive_action_menu import (
+    NaiveActionMenuView,
+    NaiveActionMenuPresenter,
 )
-from app.algorithms.interface import NAIVE_ALGORITHMS
 
 st.set_page_config(
     page_title="Optymalizacja wielokryterialna - Algorytmy naiwne", layout="wide"
@@ -47,7 +46,7 @@ dataset_loader_view = DatasetLoaderView("Moduł ładujący zbiór danych")
 criteria_view = CriteriaEditorView("Edytor kryteriów")
 dataset_generator_view = DatasetGeneratorView("Generator zbioru danych")
 datatable_view = DataTableView("Podgląd zbioru danych")
-algorithm_runner_view = AlgorithmRunnerView("Akcje")
+algorithm_runner_view = NaiveActionMenuView("Akcje")
 
 # presenters
 with dataset_loader_placeholder.container():
@@ -63,6 +62,4 @@ with datatable_placeholder.container():
         model=model, view=datatable_view, build_df=build_data_table_view_df
     )
 with algorithm_runner_placeholder.container():
-    AlgorithmRunnerPresenter(
-        model=model, view=algorithm_runner_view, algorithms=NAIVE_ALGORITHMS
-    )
+    NaiveActionMenuPresenter(model=model, view=algorithm_runner_view)
