@@ -1,5 +1,5 @@
 import streamlit as st
-from app.components.model import Model
+from app.components.model import get_model
 from app.components.criteria_editor import CriteriaEditorView, CriteriaPresenter
 from app.components.dataset_display import (
     DataTableView,
@@ -26,10 +26,7 @@ st.set_page_config(
 st.title("Algorytmy naiwne")
 
 # models
-if Model.streamlit_indentifier in st.session_state:
-    model = st.session_state[Model.streamlit_indentifier]
-else:
-    model = Model()
+model = get_model("naive-algorithms-model")
 
 # layout
 left, right = st.columns(2)
