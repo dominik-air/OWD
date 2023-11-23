@@ -1,18 +1,23 @@
+from typing import Protocol
 import streamlit as st
-from ..algorithms.interface import Ranking, RankingMethod, RANKING_ALGORITHMS
+from ..algorithms.interface import RankingMethod, RANKING_ALGORITHMS
+
+
+class Model(Protocol):
+    def process_points_with_ranking_method(self, algorithm: RankingMethod) -> None:
+        ...
 
 
 class RankingActionMenuPresenter:
-    def __init__(self, model, view) -> None:
+    def __init__(self, model: Model, view: "RankingActionMenuView") -> None:
         self.model = model
         self.view = view
         self.supported_algorithms = RANKING_ALGORITHMS
         self.view.init_ui(self)
 
     def run_algorithm(self) -> None:
-        self.execute_the_algorithm(self.view.selected_algorithm)
-        self.prepare_results_json()
-        self.prepare_proper_figure()
+        algorithm = self.supported_algorithms[self.view.selected_algorithm]
+        self.model.process_points_with_ranking_method(algorithm)
 
 
 class RankingActionMenuView:
@@ -27,5 +32,4 @@ class RankingActionMenuView:
                 "Metoda rankingowa", options=list(presenter.supported_algorithms.keys())
             )
         with right:
-            st.subheader(self.title, divider=True)
             st.button("Stwórz ranking", on_click=presenter.run_algorithm)

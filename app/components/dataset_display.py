@@ -2,6 +2,8 @@ from typing import Protocol, Callable
 import numpy as np
 import streamlit as st
 import pandas as pd
+from ..algorithms.types import Ranking
+from .model import PropertyNotReadyError
 
 
 class Model(Protocol):
@@ -23,6 +25,10 @@ class Model(Protocol):
 
     @property
     def alternative_names(self) -> list[str]:
+        ...
+
+    @property
+    def ranking(self) -> Ranking:
         ...
 
 
@@ -50,8 +56,13 @@ def build_class_table_view_df(model: Model) -> pd.DataFrame:
 
 
 def build_ranking_table_view_df(model: Model) -> pd.DataFrame:
-    df = pd.DataFrame({"Wynik": [1] * len(model.alternative_names)})
-    df.insert(0, "Nazwa alternatywy", model.alternative_names)
+    try:
+        indices, scores = model.ranking
+    except PropertyNotReadyError:
+        return pd.DataFrame([])
+    alternatives = [model.alternative_names[i] for i in indices]
+    df = pd.DataFrame({"Wynik": scores})
+    df.insert(0, "Nazwa alternatywy", alternatives)
     return df
 
 

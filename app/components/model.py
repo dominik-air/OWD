@@ -1,7 +1,7 @@
 import numpy as np
 import streamlit as st
 from ..algorithms.point import Point, create_points_from_datapoints
-from ..algorithms.interface import OWDAlgorithm, RankingMethod, Ranking
+from ..algorithms.types import OWDAlgorithm, RankingMethod, Ranking
 
 
 class PropertyNotReadyError(Exception):

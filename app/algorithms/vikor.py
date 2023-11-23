@@ -1,7 +1,7 @@
 from enum import Enum, auto
 import numpy as np
 from .point import Point
-from .interface import Ranking
+from .types import Ranking
 
 
 class CompromiseStrategy(Enum):
@@ -50,9 +50,7 @@ def vikor(
     v = get_strategy_thresholds(strategy)
     Q = v * S + (1 - v) * R
 
-    sorted_indices = np.argsort(Q)
+    sorted_indices = np.argsort(-Q)
     sorted_q_values = Q[sorted_indices]
 
     return sorted_indices.tolist(), sorted_q_values.tolist()
-
-
