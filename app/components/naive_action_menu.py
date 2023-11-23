@@ -4,7 +4,7 @@ import streamlit as st
 from matplotlib.figure import Figure
 import plotly.graph_objects as go
 from numpy import mean
-from ..algorithms.interface import Point, OWDAlgorithm, BenchmarkAnalyzer
+from ..algorithms.interface import Point, OWDAlgorithm, NAIVE_ALGORITHMS, BenchmarkAnalyzer
 
 
 class Model:
@@ -32,15 +32,15 @@ def point_to_json(p: Point, labels: list[str]) -> dict[str, Any]:
     return {labels[i]: p.x[i] for i in range(len(labels))}
 
 
-class AlgorithmRunnerPresenter:
+class NaiveActionMenuPresenter:
     cached_figure = "cached_figure"
     cached_json = "cached_json"
     cached_table = "cached_table"
 
-    def __init__(self, model: Model, view: "AlgorithmRunnerView", algorithms: dict[str, OWDAlgorithm]) -> None:
+    def __init__(self, model: Model, view: "NaiveActionMenuView") -> None:
         self.model = model
         self.view = view
-        self.supported_algorithms = algorithms
+        self.supported_algorithms = NAIVE_ALGORITHMS
         self.view.init_ui(self)
 
     def run_algorithm(self) -> None:
@@ -215,12 +215,12 @@ class AlgorithmRunnerPresenter:
             del st.session_state[self.cached_figure]
 
 
-class AlgorithmRunnerView:
+class NaiveActionMenuView:
 
     def __init__(self, title: str) -> None:
         self.title = title
 
-    def init_ui(self, presenter: AlgorithmRunnerPresenter) -> None:
+    def init_ui(self, presenter: NaiveActionMenuPresenter) -> None:
         st.subheader(self.title, divider=True)
 
         left, right = st.columns([2, 2])
