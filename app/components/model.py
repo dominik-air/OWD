@@ -14,9 +14,11 @@ class PropertyNotReadyError(Exception):
 
 
 class Model:
-    streamlit_indentifier = "data_model"
 
-    def __init__(self) -> None:
+    def __init__(self, streamlit_indentifier: str) -> None:
+        if streamlit_indentifier in st.session_state:
+            raise ValueError(f"{streamlit_indentifier} streamlit_indentifier is already used!")
+        self.streamlit_indentifier = streamlit_indentifier
         self._data: np.ndarray = np.random.normal(0, 1, size=(20, 2))
         self._labels: list[str] = ["x", "y"]
         self._directions: list[str] = ["Min", "Max"]
@@ -157,3 +159,9 @@ class Model:
     def checkpoint(self) -> None:
         """Save the current state of the data model, since Streamlit is stateless by design."""
         st.session_state[self.streamlit_indentifier] = self
+
+
+def get_model(streamlit_indentifier: str) -> Model:
+    if streamlit_indentifier not in st.session_state:
+        return Model(streamlit_indentifier)
+    return st.session_state[streamlit_indentifier]

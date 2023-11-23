@@ -1,5 +1,5 @@
 import streamlit as st
-from app.components.model import Model
+from app.components.model import get_model
 from app.components.dataset_display import (
     DataTableView,
     DataTablePresenter,
@@ -23,10 +23,7 @@ st.set_page_config(
 st.title("Metody rankingowe")
 
 # models
-if Model.streamlit_indentifier in st.session_state:
-    model = st.session_state[Model.streamlit_indentifier]
-else:
-    model = Model()
+model = get_model("ranking-methods-model")
 
 # layout
 left, right = st.columns(2)

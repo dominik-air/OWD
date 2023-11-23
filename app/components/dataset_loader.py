@@ -54,6 +54,13 @@ class Model(Protocol):
     def alternative_names(self, alternative_names: list[str]) -> None:
         ...
 
+    @property
+    def criteria_weights(self) -> list[float]:
+        ...
+
+    @criteria_weights.setter
+    def criteria_weights(self, criteria_weights: list[float]) -> None:
+        ...
 
 class DatasetLoaderStrategy(Protocol):
     @property
@@ -104,6 +111,7 @@ class ExcelDatasetLoader:
         alt_names = self.alternatives.iloc[:, 1].values.tolist()
         class_data = self.classes.iloc[:, 1:].values
         class_names = self.classes.iloc[:, 0].values.tolist()
+        criteria_weights = [1./data.shape[1]] * data.shape[1] 
 
         model.data = data
         model.directions = directions
@@ -111,6 +119,7 @@ class ExcelDatasetLoader:
         model.alternative_names = alt_names
         model.class_data = class_data
         model.class_names = class_names
+        model.criteria_weights = criteria_weights
 
 
 class DatasetLoaderPresenter:
