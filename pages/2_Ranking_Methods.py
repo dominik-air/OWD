@@ -12,11 +12,7 @@ from app.components.dataset_loader import (
     DatasetLoaderPresenter,
     ExcelDatasetLoader,
 )
-from app.components.algorithm_runner import (
-    AlgorithmRunnerView,
-    AlgorithmRunnerPresenter,
-)
-from app.algorithms.interface import RANKING_ALGORITHMS
+from app.components.ranking_action_menu import RankingActionMenuPresenter, RankingActionMenuView
 
 st.set_page_config(
     page_title="Optymalizacja wielokryterialna - Metody rankingowe", layout="wide"
@@ -44,7 +40,7 @@ dataset_loader_view = DatasetLoaderView("Moduł ładujący zbiór danych")
 alternatives_view = DataTableView("Alternatywy z kryteriami")
 classes_view = DataTableView("Klasy")
 ranking_view = DataTableView("Stworzony ranking")
-algorithm_runner_view = AlgorithmRunnerView("Akcje")
+algorithm_runner_view = RankingActionMenuView("Akcje")
 
 # presenters
 with dataset_loader_placeholder.container():
@@ -52,8 +48,8 @@ with dataset_loader_placeholder.container():
         model=model, view=dataset_loader_view, loader=ExcelDatasetLoader()
     )
 with algorithm_runner_placeholder.container():
-    AlgorithmRunnerPresenter(
-        model=model, view=algorithm_runner_view, algorithms=RANKING_ALGORITHMS
+    RankingActionMenuPresenter(
+        model=model, view=algorithm_runner_view
     )
 with alternatives_display_placeholder.container():
     DataTablePresenter(
