@@ -3,10 +3,14 @@ from .point import Point
 from .ideal_point import ideal_point_method
 from .filtered import naive_with_filtering
 from .naive_without_filtration import naive_without_filtering
+from .vikor import vikor
+from .topsis import topsis
 import time
 from numpy import mean, std
 
 OWDAlgorithm = Callable[[list[Point]], list[Point]]
+Ranking = tuple[list[int], list[float]]
+RankingMethod = Callable[[list[Point], list[float]], Ranking]
 distribution_callable = Callable[[int, int], list[Point]]
 
 NAIVE_ALGORITHMS: dict[str, OWDAlgorithm] = {
@@ -16,11 +20,11 @@ NAIVE_ALGORITHMS: dict[str, OWDAlgorithm] = {
 }
 
 
-RANKING_ALGORITHMS: dict[str, OWDAlgorithm] = {
-    "TOPSIS": lambda: exec('raise NotImplementedError'),
+RANKING_ALGORITHMS: dict[str, RankingMethod] = {
+    "TOPSIS": topsis,
     "RSM": lambda: exec('raise NotImplementedError'),
     "UTA Star": lambda: exec('raise NotImplementedError'),
-    "SP-CS": lambda: exec('raise NotImplementedError')
+    "VIKOR": vikor
 }
 
 
