@@ -16,8 +16,8 @@ from app.components.dataset_loader import (
     CSVDatasetLoader,
 )
 from app.components.naive_action_menu import (
-    NaiveAlgorithmRunnerView,
-    NaiveAlgorithmRunnerPresenter,
+    NaiveActionMenuView,
+    NaiveActionMenuPresenter,
 )
 
 st.set_page_config(
@@ -46,7 +46,7 @@ dataset_loader_view = DatasetLoaderView("Moduł ładujący zbiór danych")
 criteria_view = CriteriaEditorView("Edytor kryteriów")
 dataset_generator_view = DatasetGeneratorView("Generator zbioru danych")
 datatable_view = DataTableView("Podgląd zbioru danych")
-algorithm_runner_view = NaiveAlgorithmRunnerView("Akcje")
+algorithm_runner_view = NaiveActionMenuView("Akcje")
 
 # presenters
 with dataset_loader_placeholder.container():
@@ -62,6 +62,4 @@ with datatable_placeholder.container():
         model=model, view=datatable_view, build_df=build_data_table_view_df
     )
 with algorithm_runner_placeholder.container():
-    NaiveAlgorithmRunnerPresenter(
-        model=model, view=algorithm_runner_view
-    )
+    NaiveActionMenuPresenter(model=model, view=algorithm_runner_view)
