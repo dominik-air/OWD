@@ -127,27 +127,26 @@ class Model:
         return self._ranking
 
     def process_points_with_naive_algorithm(self, algorithm: OWDAlgorithm) -> None:
+        points = self.points
         # flip the signs for optimisation
-        self._flip_signs()
-        non_dominated = algorithm(self.points)
+        for p in points:
+            p.adjust_signs_for_optimization(self.directions)
+        non_dominated = algorithm(points)
         # bring back the previous values
-        self._flip_signs()
+        for p in non_dominated:
+            p.adjust_signs_for_optimization(self.directions)
         self._non_dominated_points = non_dominated
         self._dominated_points = self._filter_non_dominated(non_dominated)
         self.checkpoint()
 
     def process_points_with_ranking_method(self, algorithm: RankingMethod) -> None:
+        points = self.points
         # flip the signs for optimisation
-        self._flip_signs()
-        ranking = algorithm(self.points, self.criteria_weights)
-        # bring back the previous values
-        self._flip_signs()
+        for p in points:
+            p.adjust_signs_for_optimization(self.directions)
+        ranking = algorithm(points, self.criteria_weights)
         self._ranking = ranking
         self.checkpoint()
-
-    def _flip_signs(self) -> None:
-        for p in self.points:
-            p.adjust_signs_for_optimization(self.directions)
 
     def _filter_non_dominated(self, non_dominated: list[Point]) -> list[Point]:
         dominated = []
