@@ -140,11 +140,10 @@ class Model:
         self.checkpoint()
 
     def process_points_with_ranking_method(self, algorithm: RankingMethod) -> None:
-        points = self.points
         # flip the signs for optimisation
-        for p in points:
+        for p in self.non_dominated_points:
             p.adjust_signs_for_optimization(self.directions)
-        ranking = algorithm(points, self.criteria_weights)
+        ranking = algorithm(self.non_dominated_points, self.criteria_weights)
         self._ranking = ranking
         self.checkpoint()
 

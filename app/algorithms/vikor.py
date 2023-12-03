@@ -43,9 +43,9 @@ def vikor(
     weighted_data = norm_data * weights
     S = weighted_data.sum(axis=1)
     R = weighted_data.max(axis=1)
-
-    S = (S - S.min()) / (S.max() - S.min())
-    R = (R - R.min()) / (R.max() - R.min())
+    
+    S = (S - S.min()) / (S.max() - S.min() + 1e-6)
+    R = (R - R.min()) / (R.max() - R.min() + 1e-6)
 
     v = get_strategy_thresholds(strategy)
     Q = v * S + (1 - v) * R
