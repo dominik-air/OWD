@@ -1,5 +1,6 @@
 import time
 from numpy import mean, std
+
 from .point import Point
 from .types import OWDAlgorithm, RankingMethod
 from .ideal_point import ideal_point_method
@@ -7,6 +8,7 @@ from .filtered import naive_with_filtering
 from .naive_without_filtration import naive_without_filtering
 from .vikor import vikor
 from .topsis import topsis
+from .uta_star import uta_star
 
 
 NAIVE_ALGORITHMS: dict[str, OWDAlgorithm] = {
@@ -19,7 +21,7 @@ NAIVE_ALGORITHMS: dict[str, OWDAlgorithm] = {
 RANKING_ALGORITHMS: dict[str, RankingMethod] = {
     "TOPSIS": topsis,
     "RSM": lambda: exec("raise NotImplementedError"),
-    "UTA Star": lambda: exec("raise NotImplementedError"),
+    "UTA Star": uta_star,
     "VIKOR": vikor,
 }
 
